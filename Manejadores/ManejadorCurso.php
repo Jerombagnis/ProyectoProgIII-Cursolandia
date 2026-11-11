@@ -15,7 +15,7 @@ class ManejadorCurso {
         }
 
         $sql = "INSERT INTO cursos (creador_id, titulo, descripcion, costo, cupo, fecha_inicio, fecha_fin, tipo_acceso)
-                VALUES ('$curso->creador_id', '$curso->titulo','$curso->descripcion','$curso->costo','$cupo','$curso->fecha_inicio',' $curso->fecha_fin','$curso->tipo_acceso')
+                VALUES ('$curso->creador_id', '$curso->titulo','$curso->descripcion','$curso->costo',$cupo,'$curso->fecha_inicio',' $curso->fecha_fin','$curso->tipo_acceso')
                 ";
 
         $resultado = mysqli_query($this->conexion, $sql);
@@ -23,15 +23,15 @@ class ManejadorCurso {
             throw new Exception("No se pudo guardar el curso.");
         }
 
-        $sql = "SELECT id_curso FROM cursos
+        $sql = "SELECT id FROM cursos
                 WHERE creador_id = '$curso->creador_id'
-                ORDER BY id_curso DESC
+                ORDER BY id DESC
                 LIMIT 1";
 
         $resultado = mysqli_query($this->conexion, $sql);
         $fila = mysqli_fetch_assoc($resultado);
 
-        return $fila['id_curso'];
+        return $fila['id'];
     }
 
     // buscar curso por id, si existe lo retorna, sino devuelve null
