@@ -28,7 +28,14 @@ class Curso {
 
     public function estaActivo() {
         $hoy = date("Y-m-d");
-        return ($hoy >= $this->fecha_inicio && $hoy <= $this->fecha_fin);
+
+        if($hoy <= $this->fecha_inicio) {
+            return "proximamente";
+        } else if ($hoy >= $this->fecha_inicio && $hoy <= $this->fecha_fin) {
+            return "activo";
+        } else {
+            return "finalizado";
+        }
     }
 
     public function esGratuito() {
