@@ -8,7 +8,7 @@ class ControlCurso {
         $this->manejadorUsuario = $manejadorUsuario;
     }
 
-    public function crear($curso) {
+    public function crear($curso, $etiquetas) {
         $curso->validar();
 
         // busca el usuario creador del curso
@@ -25,7 +25,10 @@ class ControlCurso {
             }
         }
 
-        return $this->manejadorCurso->guardar($curso);
+        $id = $this->manejadorCurso->guardar($curso);
+        $this->manejadorCurso->guardarEtiquetas($id, $etiquetas);
+
+        return $id;
     }
 }
 ?>

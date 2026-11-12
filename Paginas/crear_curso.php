@@ -13,6 +13,10 @@ include "../Clases/ControlCurso.php";
 include "../Manejadores/ManejadorUsuario.php";
 include "../Manejadores/ManejadorCurso.php";
 
+$manejadorUsuario = new ManejadorUsuario($conexion);
+$manejadorCurso = new ManejadorCurso($conexion);
+$control = new ControlCurso($manejadorCurso, $manejadorUsuario);
+
 $titulo = "";
 $descripcion = "";
 $costo = "0";
@@ -20,32 +24,38 @@ $cupo = "";
 $fecha_inicio = "";
 $fecha_fin = "";
 $tipo_acceso = "publico";
+$etiquetas_elegidas = array (); 
+$todas_las_etiquetas = array (); 
 $error = "";
 
-if (isset($_POST['enviar'])) {
-    $titulo = trim($_POST['titulo']);
-    $descripcion = trim($_POST['descripcion']);
-    $costo = trim($_POST['costo']);
-    $cupo = trim($_POST['cupo']);
-    $fecha_inicio = $_POST['fecha_inicio'];
-    $fecha_fin = $_POST['fecha_fin'];
-    $tipo_acceso = $_POST['tipo_acceso'];
+try {
 
-    $manejadorUsuario = new ManejadorUsuario($conexion);
-    $manejadorCurso = new ManejadorCurso($conexion);
-    $control = new ControlCurso($manejadorCurso, $manejadorUsuario);
+    $todas_las_etiquetas = $manejadorCurso->listarEtiquetas();
 
-    try {
+    if (isset($_POST['enviar'])) {
+        $titulo = trim($_POST['titulo']);
+        $descripcion = trim($_POST['descripcion']);
+        $costo = trim($_POST['costo']);
+        $cupo = trim($_POST['cupo']);
+        $fecha_inicio = $_POST['fecha_inicio'];
+        $fecha_fin = $_POST['fecha_fin'];
+        $tipo_acceso = $_POST['tipo_acceso'];
+
+        if(isset($_POST['etiquetas'])) {
+            $etiquetas_elegidas = $_POST['etiquetas'];
+        }
+            
         $curso = new Curso(null, $_SESSION['usuario_id'], $titulo, $descripcion, $costo, $cupo, $fecha_inicio, $fecha_fin, $tipo_acceso);
-        $id = $control->crear($curso);
+        $id = $control->crear($curso, $etiquetas_elegidas);
 
         include "../Conexiones/cerrar_conexion.php";
         header("Location: curso.php?id=" . $id);
         exit;
-    } catch (Exception $e) {
-        $error = $e->getMessage();
-    }
+    }      
+} catch (Exception $e) {
+    $error = $e->getMessage();
 }
+
 
 include "../Conexiones/cerrar_conexion.php";
 ?>
@@ -97,6 +107,21 @@ include "../Conexiones/cerrar_conexion.php";
                 <option value="publico" <?php if ($tipo_acceso == "publico") { echo "selected"; } ?>>Público</option>
                 <option value="privado" <?php if ($tipo_acceso == "privado") { echo "selected"; } ?>>Privado (solo con link de acceso)</option>
             </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Etiquetas</label><br>
+            <?php foreach ($todas_las_etiquetas as $etiqueta) { ?>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="etiquetas[]"
+                           id="etiqueta<?php echo $etiqueta['id']; ?>"
+                           value="<?php echo $etiqueta['id']; ?>"
+                           <?php if (in_array($etiqueta['id'], $etiquetas_elegidas)) { echo "checked"; } ?>>
+                    <label class="form-check-label" for="etiqueta<?php echo $etiqueta['id']; ?>">
+                        <?php echo $etiqueta['nombre']; ?>
+                    </label>
+                </div>
+            <?php } ?>
         </div>
 
         <button type="submit" name="enviar" class="btn btn-primary">Crear curso</button>

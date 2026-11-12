@@ -65,5 +65,56 @@ class ManejadorCurso {
         $fila = mysqli_fetch_assoc($resultado);
         return $fila['total'];
     }
+
+
+    public function listarEtiquetas() {
+        $sql = "SELECT id, nombre FROM etiquetas ORDER BY nombre";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudieron cargar las etiquetas.");
+        }
+
+        $etiquetas = array();
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $etiquetas[] = $fila;
+        }
+        return $etiquetas;
+    }
+
+    // guardar etiquetas de un curso 
+    public function guardarEtiquetas($curso_id, $etiquetas_ids) {
+        foreach ($etiquetas_ids as $etiqueta_id) {
+            if (is_numeric($etiqueta_id)) {
+                $sql = "INSERT INTO curso_etiquetas (curso_id, etiqueta_id)
+                        VALUES ('$curso_id', '$etiqueta_id')";
+
+                $resultado = mysqli_query($this->conexion, $sql);
+                if (!$resultado) {
+                    throw new Exception("No se pudieron guardar las etiquetas del curso.");
+                }
+            }
+        }
+    }
+
+    // obtener etiquetas de un curso
+    public function etiquetasDeCurso($curso_id) {
+        $sql = "SELECT e.id, e.nombre
+                FROM etiquetas e
+                INNER JOIN curso_etiquetas ce ON ce.etiqueta_id = e.id
+                WHERE ce.curso_id = '$curso_id'
+                ORDER BY e.nombre";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudieron cargar las etiquetas del curso.");
+        }
+
+        $etiquetas = array();
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $etiquetas[] = $fila;
+        }
+        return $etiquetas;
+    }    
 }
 ?>

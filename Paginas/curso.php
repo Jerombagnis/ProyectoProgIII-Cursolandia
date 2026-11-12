@@ -6,6 +6,7 @@ include "../Clases/Curso.php";
 include "../Manejadores/ManejadorCurso.php";
 
 $curso = null;
+$etiquetas = array ();
 $error = "";
 
 try {
@@ -21,6 +22,9 @@ try {
     if ($curso == null) {
         throw new Exception("El curso no existe.");
     }
+
+    $etiquetas = $manejadorCurso->etiquetasDeCurso($curso->id);
+    
 } catch (Exception $e) {
     $error = $e->getMessage();
 }
@@ -61,6 +65,14 @@ include "../Conexiones/cerrar_conexion.php";
         </p>
 
         <p><?php echo $curso->descripcion; ?></p>
+
+        <?php if (count($etiquetas) > 0) { ?>
+            <p>
+                <?php foreach ($etiquetas as $etiqueta) { ?>
+                    <span class="badge rounded-pill text-bg-light border"><?php echo $etiqueta['nombre']; ?></span>
+                <?php } ?>
+            </p>
+        <?php } ?>
 
         <ul class="list-group mb-3">
             <li class="list-group-item"><strong>Inicio:</strong> <?php echo $curso->fecha_inicio; ?></li>
