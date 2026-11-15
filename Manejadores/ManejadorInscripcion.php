@@ -70,5 +70,57 @@ class ManejadorInscripcion {
         $fila = mysqli_fetch_assoc($resultado);
         return $fila['total'];
     }
+
+    // metodo para buscar una inscripcion por id. devuelve una inscripcion o null
+    public function buscarPorId($id) {
+        $sql = "SELECT * 
+                FROM inscripciones 
+                WHERE id = '$id'
+                ";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudo buscar la inscripción.");
+        }
+
+        $fila = mysqli_fetch_assoc($resultado);
+        if (!$fila) {
+            return null;
+        }
+
+        return new Inscripcion($fila['id'], $fila['usuario_id'], $fila['curso_id'], $fila['estado']);
+    }
+
+    //metodo para listar las inscripciones de un curso por estado (pendiente, confirmada, rechazada)
+    public function listarPorCurso($curso_id, $estado) {
+        $sql = "SELECT i.id, i.estado, i.fecha_inscripcion, u.nombre, u.email
+                FROM inscripciones i
+                INNER JOIN usuarios u ON u.id = i.usuario_id
+                WHERE i.curso_id = '$curso_id' AND i.estado = '$estado'
+                ORDER BY i.fecha_inscripcion";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudo listar las inscripciones.");
+        }
+
+        $filas = array();
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $filas[] = $fila; //array de arrays asociativos con los datos de las inscripciones (id, estado, fecha_inscripcion, nombre, email)
+        }
+        return $filas; 
+    }
+
+    //metodo para cambiar el estado de una inscripcion (pendiente, confirmada, rechazada)
+    public function cambiarEstado($id, $estado) {
+        $sql = "UPDATE inscripciones SET estado = '$estado' 
+                WHERE id = '$id'
+                ";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudo cambiar el estado de la inscripción.");
+        }
+    }
 }
 ?>

@@ -65,5 +65,50 @@ class ControlInscripcion {
 
         return $estado;
     }
+
+    //metodo para confirmar una incripcion (solo lo usa el creador del curso)
+    public function confirmar($inscripcion_id, $usuario_id) {
+        $inscripcion = $this->obtenerSolicitudDelCreador($inscripcion_id, $usuario_id);
+        $curso = $this->manejadorCurso->buscarPorId($inscripcion->curso_id);
+
+        if ($curso->cupo != "") { // el cupo se controla porque pudo llenarse mientras la solicitud estaba pendiente
+            $confirmadas = $this->manejadorInscripcion->contarConfirmadasPorCurso($curso->id);
+            if ($confirmadas >= $curso->cupo) {
+                throw new Exception("El curso no tiene más cupo, no se puede confirmar.");
+            }
+        }
+
+        $this->manejadorInscripcion->cambiarEstado($inscripcion_id, "confirmada");
+    }
+
+    // metodo para rechazar una incripcion (solo lo usa el creador del curso)
+    public function rechazar($inscripcion_id, $usuario_id) {
+        $this->obtenerSolicitudDelCreador($inscripcion_id, $usuario_id);
+
+        $this->manejadorInscripcion->cambiarEstado($inscripcion_id, "rechazada");
+    }
+    
+    // metodo privado que obtiene la solicitud de inscripcion y hace los controles de que el usuario sea el creador del curso y que la solicitud este pendiente
+    private function obtenerSolicitudDelCreador($inscripcion_id, $usuario_id) {
+        $inscripcion = $this->manejadorInscripcion->buscarPorId($inscripcion_id);
+        if ($inscripcion == null) {
+            throw new Exception("La solicitud no existe.");
+        }
+
+        $curso = $this->manejadorCurso->buscarPorId($inscripcion->curso_id);
+        if ($curso == null) {
+            throw new Exception("El curso no existe.");
+        }
+
+        if (!$curso->esCreador($usuario_id)) {
+            throw new Exception("No tenés permiso para resolver esta solicitud.");
+        }
+
+        if (!$inscripcion->estaPendiente()) {
+            throw new Exception("Esta solicitud ya fue resuelta.");
+        }
+
+        return $inscripcion;
+    }
 }
 ?>
