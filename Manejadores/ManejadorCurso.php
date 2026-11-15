@@ -116,5 +116,72 @@ class ManejadorCurso {
         }
         return $etiquetas;
     }    
+
+    // metodo que lista cursos publicos no finalizados y retorna el resultado 
+    public function listarPublicos() {
+        $sql = "SELECT * FROM cursos
+                WHERE tipo_acceso = 'publico' AND fecha_fin >= CURDATE()
+                ORDER BY fecha_inicio";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudieron cargar los cursos.");
+        }
+
+        return $this->armarCursos($resultado);
+    }
+
+    // metodo para listar cursos destacados (3 maximo) con la fecha de inicio mas cercana, asi evita la sobrecarga de cursos recomendados
+    public function listarDestacados() {
+        $sql = "SELECT c.*
+                FROM cursos c
+                INNER JOIN usuarios u ON u.id = c.creador_id
+                WHERE c.tipo_acceso = 'publico' AND c.fecha_fin >= CURDATE() AND u.vencimiento_pro >= CURDATE()
+                ORDER BY c.fecha_inicio
+                LIMIT 3";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudieron cargar los cursos destacados.");
+        }
+
+        return $this->armarCursos($resultado);
+    }
+
+    // metodo para buscar cursos por titulo o etiquetas que posea, solo muestra publicos no finalizados
+    public function buscarPublicos($texto) {
+        $sql = "SELECT DISTINCT c.*
+                FROM cursos c
+                LEFT JOIN curso_etiquetas ce ON ce.curso_id = c.id
+                LEFT JOIN etiquetas e ON e.id = ce.etiqueta_id
+                WHERE c.tipo_acceso = 'publico' AND c.fecha_fin >= CURDATE() AND (c.titulo LIKE '%" . $texto . "%' OR e.nombre LIKE '%" . $texto . "%')
+                ORDER BY c.fecha_inicio";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudo realizar la búsqueda.");
+        }
+
+        return $this->armarCursos($resultado);
+    }
+
+    // metodo privado para armar un array de objetos Curso a partir del resultado de una consulta
+    private function armarCursos($resultado) {
+        $cursos = array();
+        while ($fila = mysqli_fetch_assoc($resultado)) {   
+            $cursos[] = new Curso(
+                $fila['id'],
+                $fila['creador_id'],
+                $fila['titulo'],
+                $fila['descripcion'],
+                $fila['costo'],
+                $fila['cupo'],
+                $fila['fecha_inicio'],
+                $fila['fecha_fin'],
+                $fila['tipo_acceso']
+            );
+        }
+        return $cursos;
+    }
 }
 ?>
