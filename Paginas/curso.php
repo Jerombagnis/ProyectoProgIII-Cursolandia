@@ -75,7 +75,7 @@ include "../Conexiones/cerrar_conexion.php";
 ?>
 <?php include "includes/header.php"; ?>
 
-// contenido de la pagina, si hay un error se muestra el mensaje de error y un boton para volver al inicio, sino se muestran los datos del curso y el boton de inscribirse si corresponde
+<!-- .contenido de la pagina, si hay un error se muestra el mensaje de error y un boton para volver al inicio, sino se muestran los datos del curso y el boton de inscribirse si corresponde -->
 
 <div class="container my-4">
 
