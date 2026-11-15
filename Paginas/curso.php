@@ -39,7 +39,7 @@ try {
         throw new Exception("El curso no existe.");
     }
 
-    // control que procesa procesa la inscripcion del usuario al curso, si el usuario esta logueado y presiona el boton de inscribirse
+    // control que procesa la inscripcion del usuario al curso, si el usuario esta logueado y presiona el boton de inscribirse
     if (isset($_POST['inscribirse']) && isset($_SESSION['usuario_id'])) {
         $control = new ControlInscripcion($manejadorInscripcion, $manejadorCurso, $manejadorUsuario);
 
@@ -148,6 +148,7 @@ include "../Conexiones/cerrar_conexion.php";
         <?php } elseif ($curso->esCreador($_SESSION['usuario_id'])) { ?>
         
                     <div class="alert alert-info">Este curso es tuyo.</div>
+                    <a href="solicitudes.php?id=<?php echo $curso->id; ?>" class="btn btn-outline-primary">Ver solicitudes e inscriptos</a>
 
         <?php } elseif ($inscripcion != null) { ?>
 
