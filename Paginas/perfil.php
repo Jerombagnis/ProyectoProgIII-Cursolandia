@@ -9,7 +9,9 @@ if (!isset($_SESSION['usuario_id'])) {
 
 include "../Conexiones/conexion.php";
 include "../Clases/Usuario.php";
+include "../Clases/Curso.php";
 include "../Manejadores/ManejadorUsuario.php";
+include "../Manejadores/ManejadorCurso.php";
 
 $usuario = null;
 $nombre = "";
@@ -19,6 +21,9 @@ $mensaje = "";
 $error = "";
 $errorDatos = "";
 $errorClave = "";
+$errorIntereses = "";
+$todas_las_etiquetas = array();
+$intereses_elegidos = array();
 
 // si hay un mensaje en la sesión, se guarda en $mensaje y se borra de la sesión
 if (isset($_SESSION['mensaje'])) {
@@ -28,6 +33,7 @@ if (isset($_SESSION['mensaje'])) {
 
 try {
     $manejadorUsuario = new ManejadorUsuario($conexion);
+    $manejadorCurso = new ManejadorCurso($conexion);
 
     
     $usuario = $manejadorUsuario->buscarPorId($_SESSION['usuario_id']);
@@ -39,6 +45,10 @@ try {
     $nombre = $usuario->nombre;
     $apellido = $usuario->apellido;
     $antecedentes = $usuario->antecedentes;
+
+    // obtengo todas las etiquetas de la base de datos y los intereses del usuario para mostrarlos en el formulario
+    $todas_las_etiquetas = $manejadorCurso->listarEtiquetas();
+    $intereses_elegidos = $manejadorUsuario->interesesDeUsuario($usuario->id);
 
     // formulario 1: guardar datos generales del usuario (nombre, apellido, antecedentes)
     if (isset($_POST['guardar_datos'])) {
@@ -63,7 +73,28 @@ try {
         }
     }
 
-    // Formulario 2: cambiar contraseña
+    // Formulario 2: guardar intereses
+    if (isset($_POST['guardar_intereses'])) {
+        // si no marcó ninguna casilla, $_POST['intereses'] no existe
+        $intereses_elegidos = array();
+        if (isset($_POST['intereses'])) {
+            $intereses_elegidos = $_POST['intereses'];
+        }
+
+        try {
+            $manejadorUsuario->guardarIntereses($usuario->id, $intereses_elegidos);
+
+            $_SESSION['mensaje'] = "Intereses actualizados.";
+
+            include "../Conexiones/cerrar_conexion.php";
+            header("Location: perfil.php");
+            exit;
+        } catch (Exception $e) {
+            $errorIntereses = $e->getMessage();
+        }
+    }
+
+    // Formulario 3: cambiar contraseña
     if (isset($_POST['cambiar_clave'])) {
         try {
             $usuario->validarCambioClave($_POST['clave_actual'], $_POST['clave_nueva'], $_POST['clave_repetida']);
@@ -81,6 +112,8 @@ try {
 } catch (Exception $e) {
     $error = $e->getMessage();
 }
+
+
 
 include "../Conexiones/cerrar_conexion.php";
 ?>
@@ -136,6 +169,31 @@ include "../Conexiones/cerrar_conexion.php";
             </div>
 
             <button type="submit" name="guardar_datos" class="btn btn-primary">Guardar datos</button>
+        </form>
+
+        <h2 class="h4">Mis intereses</h2>
+        <p class="text-muted">Los usamos para recomendarte cursos.</p>
+
+        <?php if ($errorIntereses != "") { ?>
+            <div class="alert alert-danger"><?php echo $errorIntereses; ?></div>
+        <?php } ?>
+
+        <form method="post" action="perfil.php" class="mb-5">
+            <div class="mb-3">
+                <?php foreach ($todas_las_etiquetas as $etiqueta) { ?>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="intereses[]"
+                               id="interes<?php echo $etiqueta['id']; ?>"
+                               value="<?php echo $etiqueta['id']; ?>"
+                               <?php if (in_array($etiqueta['id'], $intereses_elegidos)) { echo "checked"; } ?>>
+                        <label class="form-check-label" for="interes<?php echo $etiqueta['id']; ?>">
+                            <?php echo $etiqueta['nombre']; ?>
+                        </label>
+                    </div>
+                <?php } ?>
+            </div>
+
+            <button type="submit" name="guardar_intereses" class="btn btn-primary">Guardar intereses</button>
         </form>
 
         <h2 class="h4">Cambiar contraseña</h2>
