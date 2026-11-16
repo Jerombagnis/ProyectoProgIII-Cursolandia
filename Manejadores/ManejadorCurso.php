@@ -189,6 +189,21 @@ class ManejadorCurso {
         return $this->armarCursos($resultado);
     }
 
+    // metodo para listar cursos creados por un usuario
+    public function listarPorCreador($creador_id) {
+        $sql = "SELECT * 
+                FROM cursos
+                WHERE creador_id = '$creador_id'
+                ORDER BY fecha_inicio DESC";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudieron cargar tus cursos.");
+        }
+
+        return $this->armarCursos($resultado);
+    }
+
     // metodo privado para armar un array de objetos Curso a partir del resultado de una consulta
     private function armarCursos($resultado) {
         $cursos = array();

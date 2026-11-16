@@ -111,6 +111,27 @@ class ManejadorInscripcion {
         return $filas; 
     }
 
+    //metodo para listar las inscripciones de un usuario, con el estado y datos del curso
+    public function listarPorUsuario($usuario_id) {
+        $sql = "SELECT i.estado AS estado_inscripcion, c.*
+                FROM inscripciones i
+                INNER JOIN cursos c ON c.id = i.curso_id
+                WHERE i.usuario_id = '$usuario_id'
+                ORDER BY i.fecha_inscripcion DESC";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudieron cargar tus inscripciones.");
+        }
+
+        $items = array();
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $curso = new Curso($fila['id'],$fila['creador_id'],$fila['titulo'],$fila['descripcion'],$fila['costo'],$fila['cupo'],$fila['fecha_inicio'],$fila['fecha_fin'],$fila['tipo_acceso']);
+            $items[] = array('curso' => $curso,'estado' => $fila['estado_inscripcion']);
+        }
+        return $items;
+    }
+
     //metodo para cambiar el estado de una inscripcion (pendiente, confirmada, rechazada)
     public function cambiarEstado($id, $estado) {
         $sql = "UPDATE inscripciones SET estado = '$estado' 
