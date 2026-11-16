@@ -54,5 +54,58 @@ class ManejadorPagoPro {
         }
         return $pagos;
     }
+
+    // metodo para obtener todas las solicitudes plan pro pendientes, las mas antiguas primero
+    public function listarPendientes() {
+        $sql = "SELECT * FROM pagos_pro
+                WHERE estado = 'pendiente'
+                ORDER BY created_at ASC
+                ";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudieron cargar las solicitudes pendientes.");
+        }
+
+        $pagos = array();
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $pagos[] = new PagoPro($fila['id'],$fila['usuario_id'],$fila['mensaje'],$fila['adjunto'],$fila['estado'],$fila['created_at']);
+        }
+        return $pagos;
+    }
+
+    // metodo para rechazar una solicitud. Solo actua si sigue pendiente.
+    public function rechazar($id) {
+        $sql = "UPDATE pagos_pro
+                SET estado = 'rechazado', resuelto_at = NOW()
+                WHERE id = $id
+                AND estado = 'pendiente'
+                ";
+
+        if (!mysqli_query($this->conexion, $sql)) {
+            throw new Exception("No se pudo rechazar la solicitud.");
+        }
+
+        return mysqli_affected_rows($this->conexion); // retorna la cantidad de filas modificadas (1 si se rechaza, 0 si no)
+    }
+
+    // metodo para aprobar una solicitud y extender el plan Pro del usuario
+    public function aprobar($id, $meses) {
+        $sql = "UPDATE pagos_pro p
+                INNER JOIN usuarios u ON u.id = p.usuario_id
+                SET p.estado = 'aprobado',
+                    p.resuelto_at = NOW(),
+                    u.vencimiento_pro = DATE_ADD(
+                        IF(u.vencimiento_pro >= CURDATE(), u.vencimiento_pro, CURDATE()), 
+                        INTERVAL $meses MONTH)
+                WHERE p.id = $id AND p.estado = 'pendiente'
+                ";
+
+        if (!mysqli_query($this->conexion, $sql)) {
+            throw new Exception("No se pudo aprobar la solicitud.");
+        }
+
+        return mysqli_affected_rows($this->conexion);
+    }
 }
 ?>

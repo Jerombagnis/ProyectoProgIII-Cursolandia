@@ -22,13 +22,16 @@
                     <li class="nav-item"><a class="nav-link" href="mis_cursos.php">Mis cursos</a></li>
                     <li class="nav-item"><a class="nav-link" href="mis_inscripciones.php">Mis inscripciones</a></li>
                     <li class="nav-item"><a class="nav-link" href="solicitar_pro.php">Plan Pro</a></li>
+                    <?php if (isset($_SESSION['usuario_rol']) && $_SESSION['usuario_rol'] == "admin") { ?>
+                        <li class="nav-item"><a class="nav-link" href="admin_pagos.php">Administración</a></li>
+                    <?php } ?>
                     <li class="nav-item"><a class="nav-link" href="logout.php">Cerrar sesión</a></li>
                 <?php } else { ?>
                     <li class="nav-item"><a class="nav-link" href="login.php">Ingresar</a></li>
                     <li class="nav-item"><a class="nav-link" href="registro.php">Registrarse</a></li>
                 <?php } ?>
             </ul>
-        </div>`
+        </div>
     </div>
 </nav>
 <main class="container py-4">

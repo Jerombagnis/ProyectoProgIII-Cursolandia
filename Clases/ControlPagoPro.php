@@ -15,5 +15,30 @@ class ControlPagoPro {
 
         return $this->manejadorPagoPro->guardar($pago);
     }
+
+    // metodo para rechazar una solicitud plan pro 
+    public function rechazar($id) {
+        if (!is_numeric($id)) {
+            throw new Exception("La solicitud no es válida.");
+        }
+
+        if ($this->manejadorPagoPro->rechazar($id) == 0) {
+            throw new Exception("La solicitud no existe o ya fue resuelta.");
+        }
+    }
+    
+    // metodo para confirmar una solicitud pro 
+    public function aprobar($id, $meses) {
+        if (!is_numeric($id)) {
+            throw new Exception("La solicitud no es válida.");
+        }
+        if (!is_numeric($meses) || !in_array((int) $meses, array(1, 3, 12))) {
+            throw new Exception("La duración elegida no es válida.");
+        }
+
+        if ($this->manejadorPagoPro->aprobar($id, $meses) == 0) {
+            throw new Exception("La solicitud no existe o ya fue resuelta.");
+        }
+    }
 }
 ?>
