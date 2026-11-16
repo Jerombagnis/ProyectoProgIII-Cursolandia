@@ -131,13 +131,13 @@ class ManejadorCurso {
         return $this->armarCursos($resultado);
     }
 
-    // metodo para listar cursos destacados (3 maximo) con la fecha de inicio mas cercana, asi evita la sobrecarga de cursos recomendados
+    // metodo para listar cursos destacados (3 maximo) de forma aleatoria, asi evita la sobrecarga de cursos recomendados
     public function listarDestacados() {
         $sql = "SELECT c.*
                 FROM cursos c
                 INNER JOIN usuarios u ON u.id = c.creador_id
                 WHERE c.tipo_acceso = 'publico' AND c.fecha_fin >= CURDATE() AND u.vencimiento_pro >= CURDATE()
-                ORDER BY c.fecha_inicio
+                ORDER BY RAND ()
                 LIMIT 3";
 
         $resultado = mysqli_query($this->conexion, $sql);

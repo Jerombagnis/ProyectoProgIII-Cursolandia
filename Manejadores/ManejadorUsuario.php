@@ -37,6 +37,28 @@ class ManejadorUsuario {
         }
         return new Usuario($fila['id'], $fila['nombre'], $fila['apellido'], $fila['email'], $fila['password'], $fila['rol'], $fila['vencimiento_pro'],$fila['antecedentes'], $fila['imagen_perfil']);
     }
+
+    // metodo para actualizar datos generales de un usuario (perfil)
+    public function actualizarDatos($usuario) {
+        $sql = "UPDATE usuarios
+                SET nombre = '$usuario->nombre',
+                    apellido = '$usuario->apellido',
+                    antecedentes = '$usuario->antecedentes'
+                WHERE id = $usuario->id";
+        if (!mysqli_query($this->conexion, $sql)) {
+            throw new Exception("No se pudieron actualizar los datos.");
+        }
+    }
+
+    // metodo para modificar la constraseña de un usuario. 
+    public function cambiarPassword($id, $passwordCifrada) {
+        $sql = "UPDATE usuarios 
+                SET password = '$passwordCifrada' 
+                WHERE id = $id";
+        if (!mysqli_query($this->conexion, $sql)) {
+            throw new Exception("No se pudo cambiar la contraseña.");
+        }
+    }
 }
 
 ?>
