@@ -57,6 +57,30 @@ class Usuario {
             throw new Exception("Las contraseñas no coinciden.");
         }
     }
+
+    // metodo estatico para validar la imagen de perfil del usuario. Se le pasa el archivo y si no cumple con las condiciones, lanza una excepción.
+    public static function validarImagen($archivo) {
+        if ($archivo['error'] == 4) {
+            throw new Exception("Elegí una imagen.");
+        }
+        if ($archivo['error'] != 0) {
+            throw new Exception("No se pudo subir la imagen. Probá con una más liviana.");
+        }
+        if ($archivo['size'] > 2 * 1024 * 1024) {
+            throw new Exception("La imagen no puede pesar más de 2 MB.");
+        }
+
+        // obtengo la extension del archivo y la convierto a minuscula para evitar problemas con mayusculas y minusculas.
+        $partes = explode(".", $archivo['name']);
+        $extension = strtolower(end($partes));
+
+        // verifico que la extension sea jpg, jpeg, png o gif. sino lanzo una excepción.
+        if (!in_array($extension, array("jpg", "jpeg", "png", "gif"))) {
+            throw new Exception("Solo se permiten imágenes JPG, PNG o GIF.");
+        }
+
+        return $extension;
+    }
  
     // metodo estatico para cifrar la contraseña del usuario. static porque no necesita acceder a ningun atributo de la clase para hacer su funcion. 
     public static function cifrar($clave) {
