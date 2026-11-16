@@ -59,6 +59,39 @@ class ManejadorUsuario {
             throw new Exception("No se pudo cambiar la contraseña.");
         }
     }
+
+    // metodo para obtener los intereses de un usuario. Devuelve un array con los ids de las etiquetas
+    public function interesesDeUsuario($usuario_id) {
+        $sql = "SELECT etiqueta_id FROM usuario_intereses WHERE usuario_id = $usuario_id";
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudieron cargar los intereses.");
+        }
+
+        $ids = array();
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $ids[] = $fila['etiqueta_id'];
+        }
+        return $ids;
+    }
+
+    // metodo para guardar los intereses de un usuario 
+    public function guardarIntereses($usuario_id, $etiquetas_ids) {
+        $sql = "DELETE FROM usuario_intereses WHERE usuario_id = $usuario_id"; // borro los intereses anteriores del usuario 
+        if (!mysqli_query($this->conexion, $sql)) {
+            throw new Exception("No se pudieron actualizar los intereses.");
+        }
+
+        foreach ($etiquetas_ids as $etiqueta_id) {
+            if (is_numeric($etiqueta_id)) {         
+                $sql = "INSERT INTO usuario_intereses (usuario_id, etiqueta_id) 
+                        VALUES ($usuario_id, $etiqueta_id)";                // guardo los intereses nuevos del usuario
+                if (!mysqli_query($this->conexion, $sql)) {
+                    throw new Exception("No se pudieron guardar los intereses.");
+                }
+            }
+        }
+    }
 }
 
 ?>
