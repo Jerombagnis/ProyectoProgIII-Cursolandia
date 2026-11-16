@@ -50,6 +50,10 @@ class Curso {
         return ($this->creador_id == $usuario_id);
     }
 
+    public function haTerminado() {
+        return (date("Y-m-d") > $this->fecha_fin);
+    }
+
     public function validar() {
         if (trim($this->titulo) == "") {
             throw new Exception("El título es obligatorio.");

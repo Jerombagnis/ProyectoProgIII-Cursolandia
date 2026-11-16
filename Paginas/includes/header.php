@@ -18,6 +18,9 @@
             <ul class="navbar-nav ms-auto align-items-md-center">
                 <?php if (isset($_SESSION['usuario_id'])) { ?>
                     <li class="nav-item"><span class="navbar-text me-3">Hola, <?php echo $_SESSION['usuario_nombre']; ?></span></li>
+                    <li class="nav-item"><a class="nav-link" href="perfil.php">Mi perfil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mis_cursos.php">Mis cursos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mis_inscripciones.php">Mis inscripciones</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout.php">Cerrar sesión</a></li>
                 <?php } else { ?>
                     <li class="nav-item"><a class="nav-link" href="login.php">Ingresar</a></li>
