@@ -2,6 +2,8 @@
 session_start();
 
 include "../Conexiones/conexion.php";
+include "../Clases/Usuario.php";
+include "../Manejadores/ManejadorUsuario.php";
 include "../Clases/Curso.php";
 include "../Manejadores/ManejadorCurso.php";
 
@@ -13,30 +15,45 @@ if (isset($_GET['q'])) {
 }
 
 $cursos = array();
+$recomendados = array();
 $destacados = array();
 $resultados = array();
+$tiene_intereses = false;
 $error = "";
 
 try {
     $manejadorCurso = new ManejadorCurso($conexion);
+    $manejadorUsuario = new ManejadorUsuario($conexion);
 
     if ($q != "") {
         // si q esta seteada, se realiza la búsqueda y se muestran los resultados
         $cursos = $manejadorCurso->buscarPublicos($q);
     } else {
+        // si q no esta seteada, entonces se listan recomendados (si hay sesion), destacados y todos los cursos públicos
         $cursos = $manejadorCurso->listarPublicos();
 
+        if (isset($_SESSION['usuario_id'])) {
+            $intereses = $manejadorUsuario->interesesDeUsuario($_SESSION['usuario_id']);
+
+            if (count($intereses) > 0) {
+                $tiene_intereses = true;
+
+                $cursos_recomendados = $manejadorCurso->listarRecomendados($_SESSION['usuario_id']);
+                foreach ($cursos_recomendados as $curso) {
+                    // array que en cada posicion pose otro arrayasociativo con curso y sus etiquetas
+                    $recomendados[] = array('curso' => $curso,'etiquetas' => $manejadorCurso->etiquetasDeCurso($curso->id)); 
+                }
+            }
+        }
+
+        // obtengo los cursos destacados (3 maximo) de forma aleatoria
         $cursos_destacados = $manejadorCurso->listarDestacados();
         foreach ($cursos_destacados as $curso) {
-            //almaceno en el array asociativo destacados el curso y sus etiquetas
-            $destacados[] = array(                  
-                'curso' => $curso,
-                'etiquetas' => $manejadorCurso->etiquetasDeCurso($curso->id)
-            );
+            $destacados[] = array('curso' => $curso,'etiquetas' => $manejadorCurso->etiquetasDeCurso($curso->id));
         }
     }
 
-    // por cada curso de la lista se le buscan sus etiquetas
+    // por cada curso de la lista (ya sea recomendados, destacados o todos los cursos públicos) se le buscan sus etiquetas
     foreach ($cursos as $curso) {
         $resultados[] = array('curso' => $curso,'etiquetas' => $manejadorCurso->etiquetasDeCurso($curso->id)
         );
@@ -65,6 +82,25 @@ include "../Conexiones/cerrar_conexion.php";
     <?php if ($error != "") { ?>
         <div class="alert alert-danger"><?php echo $error; ?></div>
     <?php } else { ?>
+
+        <!-- si la variable "q" está vacía y hay sesión iniciada, se muestran primero los recomendados para el usuario -->
+        <?php if ($q == "" && isset($_SESSION['usuario_id'])) { ?>
+            <h2 class="h4 mb-3">Recomendados para vos</h2>
+
+            <?php if (!$tiene_intereses) { ?>
+                <div class="alert alert-info">
+                    Elegí tus intereses en <a href="perfil.php" class="alert-link">tu perfil</a> y te recomendamos cursos.
+                </div>
+            <?php } elseif (count($recomendados) == 0) { ?>
+                <p>Por ahora no hay cursos que coincidan con tus intereses.</p>
+            <?php } else { ?>
+                <div class="row">
+                    <?php foreach ($recomendados as $item) { ?>
+                        <?php include "includes/tarjeta_curso.php"; ?>
+                    <?php } ?>
+                </div>
+            <?php } ?>
+        <?php } ?>    
 
         <!-- si la variable "q" está vacía y hay cursos destacados, se muestran primero los destacados -->
         <?php if ($q == "" && count($destacados) > 0) { ?>

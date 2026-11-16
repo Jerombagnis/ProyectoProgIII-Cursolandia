@@ -165,6 +165,30 @@ class ManejadorCurso {
         return $this->armarCursos($resultado);
     }
 
+    // metodo para listar cursos recomendados para un usuario, basado en sus intereses y etiquetas de los cursos, solo muestra publicos no finalizados y que no haya creado ni se haya inscripto
+    public function listarRecomendados($usuario_id) {
+        $sql = "SELECT c.*, COUNT(*) AS coincidencias
+                FROM cursos c
+                INNER JOIN curso_etiquetas ce ON ce.curso_id = c.id
+                INNER JOIN usuario_intereses ui ON ui.etiqueta_id = ce.etiqueta_id
+                WHERE ui.usuario_id = '$usuario_id'
+                AND c.tipo_acceso = 'publico'
+                AND c.fecha_fin >= CURDATE()
+                AND c.creador_id <> '$usuario_id'
+                AND c.id NOT IN (SELECT curso_id FROM inscripciones WHERE usuario_id = '$usuario_id')
+                GROUP BY c.id
+                ORDER BY coincidencias DESC, c.fecha_inicio
+                LIMIT 3
+                ";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+        if (!$resultado) {
+            throw new Exception("No se pudieron cargar los cursos recomendados.");
+        }
+
+        return $this->armarCursos($resultado);
+    }
+
     // metodo privado para armar un array de objetos Curso a partir del resultado de una consulta
     private function armarCursos($resultado) {
         $cursos = array();
