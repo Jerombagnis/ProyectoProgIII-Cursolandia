@@ -21,6 +21,7 @@
                     <li class="nav-item"><a class="nav-link" href="perfil.php">Mi perfil</a></li>
                     <li class="nav-item"><a class="nav-link" href="mis_cursos.php">Mis cursos</a></li>
                     <li class="nav-item"><a class="nav-link" href="mis_inscripciones.php">Mis inscripciones</a></li>
+                    <li class="nav-item"><a class="nav-link" href="solicitar_pro.php">Plan Pro</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout.php">Cerrar sesión</a></li>
                 <?php } else { ?>
                     <li class="nav-item"><a class="nav-link" href="login.php">Ingresar</a></li>
