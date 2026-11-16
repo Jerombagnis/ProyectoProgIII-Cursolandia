@@ -16,9 +16,9 @@ $etiquetas = $item['etiquetas'];
                     <span class="badge bg-warning text-dark">$<?php echo $curso->costo; ?></span>
                 <?php } ?>
 
-                <?php if ($curso->estaActivo()) { ?>
+                <?php if ($curso->estaActivo()=='activo') { ?>
                     <span class="badge bg-primary">Activo</span>
-                <?php } else { ?>
+                <?php } else if ($curso->estaActivo() == 'proximamente'){ ?>
                     <span class="badge bg-info text-dark">Próximamente</span>
                 <?php } ?>
             </p>

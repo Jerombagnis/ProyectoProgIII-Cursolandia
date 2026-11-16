@@ -147,9 +147,9 @@ CREATE TABLE pagos_pro (
 -- Insercion usuarios de prueba
 
 INSERT INTO usuarios (nombre, apellido, email, password, rol, vencimiento_pro) VALUES
-('Admin',   'Cursolandia', 'admin@cursolandia.com',  '0192023a7bbd73250516f069df18b500', 'admin',   '2099-12-31'),
-('Docente', 'Pro',         'pro@cursolandia.com',    '8be2efedf58bc5ca5ef33aec86a7a217', 'usuario', '2099-12-31'),
-('Usuario', 'Gratis',      'user@cursolandia.com',   '401cec94d3ed586d8cb895c10c0f7db6', 'usuario', NULL);
+('Admin',   'Cursolandia', 'admin@cursolandia.com',  '81dc9bdb52d04dc20036dbd8313ed055', 'admin',   '2099-12-31'),  -- contaseña 1234
+('Docente', 'Pro',         'pro@cursolandia.com',    '81dc9bdb52d04dc20036dbd8313ed055', 'usuario', '2099-12-31'),  -- contaseña 1234
+('Usuario', 'Gratis',      'user@cursolandia.com',   '81dc9bdb52d04dc20036dbd8313ed055', 'usuario', NULL);  -- contaseña 1234
 
 INSERT INTO etiquetas (nombre) VALUES
 ('PHP'), ('Bases de datos'), ('Java'), ('HTML y CSS'), ('JavaScript'), ('Python');
