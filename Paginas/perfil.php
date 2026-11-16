@@ -17,13 +17,14 @@ $usuario = null;
 $nombre = "";
 $apellido = "";
 $antecedentes = "";
+$todas_las_etiquetas = array();
+$intereses_elegidos = array();
 $mensaje = "";
 $error = "";
+$errorFoto= "";
 $errorDatos = "";
 $errorClave = "";
 $errorIntereses = "";
-$todas_las_etiquetas = array();
-$intereses_elegidos = array();
 
 // si hay un mensaje en la sesión, se guarda en $mensaje y se borra de la sesión
 if (isset($_SESSION['mensaje'])) {
@@ -50,7 +51,42 @@ try {
     $todas_las_etiquetas = $manejadorCurso->listarEtiquetas();
     $intereses_elegidos = $manejadorUsuario->interesesDeUsuario($usuario->id);
 
-    // formulario 1: guardar datos generales del usuario (nombre, apellido, antecedentes)
+
+    //Formulario 1: guardar foto de perfil
+    if (isset($_POST['guardar_foto'])) {
+        try {
+            // valido la imagen y obtengo la extensión
+            $extension = Usuario::validarImagen($_FILES['imagen']);
+
+            // creo un nombre de archivo único con time y el id del usuario para evitar que se sobreescriba la imagen de otro usuario
+            $nombreArchivo = $usuario->id . "_" . time() . "." . $extension; // time da la hora actual en segundos 
+            $destino = "../Archivos/Perfiles/" . $nombreArchivo;
+
+            if (!copy($_FILES['imagen']['tmp_name'], $destino)) {
+                throw new Exception("No se pudo guardar la imagen en el servidor.");
+            }
+
+            $manejadorUsuario->cambiarImagen($usuario->id, $nombreArchivo);
+
+            // se elimina la imagen anterior del usuario si no es la default.png
+            if ($usuario->imagenPerfil != "default.png") {
+                $anterior = "../Archivos/Perfiles/" . $usuario->imagenPerfil;
+                if (file_exists($anterior)) {
+                    unlink($anterior); // elimino el archivo del servidor 
+                }
+            }
+
+            $_SESSION['mensaje'] = "Foto de perfil actualizada.";
+
+            include "../Conexiones/cerrar_conexion.php";
+            header("Location: perfil.php");
+            exit;
+        } catch (Exception $e) {
+            $errorFoto = $e->getMessage();
+        }
+    }
+
+    // formulario 2: guardar datos generales del usuario (nombre, apellido, antecedentes)
     if (isset($_POST['guardar_datos'])) {
         $nombre = trim($_POST['nombre']);
         $apellido = trim($_POST['apellido']);
@@ -73,7 +109,7 @@ try {
         }
     }
 
-    // Formulario 2: guardar intereses
+    // Formulario 3: guardar intereses
     if (isset($_POST['guardar_intereses'])) {
         // si no marcó ninguna casilla, $_POST['intereses'] no existe
         $intereses_elegidos = array();
@@ -94,7 +130,7 @@ try {
         }
     }
 
-    // Formulario 3: cambiar contraseña
+    // Formulario 4: cambiar contraseña
     if (isset($_POST['cambiar_clave'])) {
         try {
             $usuario->validarCambioClave($_POST['clave_actual'], $_POST['clave_nueva'], $_POST['clave_repetida']);
@@ -131,13 +167,32 @@ include "../Conexiones/cerrar_conexion.php";
             <div class="alert alert-success"><?php echo $mensaje; ?></div>
         <?php } ?>
 
-        <p>
-            <?php if ($usuario->esPro()) { ?>
-                <span class="badge bg-warning text-dark">Plan Pro hasta <?php echo $usuario->vencimientoPro; ?></span>
-            <?php } else { ?>
-                <span class="badge bg-secondary">Plan gratuito</span>
-            <?php } ?>
-        </p>
+        <div class="d-flex align-items-center mb-4">
+            <img src="../Archivos/Perfiles/<?php echo $usuario->imagenPerfil; ?>" alt="Foto de perfil"
+                 class="rounded-circle border me-3" style="width: 100px; height: 100px; object-fit: cover;">
+            <div>
+                <p class="mb-1 fw-bold"><?php echo $usuario->nombre . " " . $usuario->apellido; ?></p>
+                <?php if ($usuario->esPro()) { ?>
+                    <span class="badge bg-warning text-dark">Plan Pro hasta <?php echo $usuario->vencimientoPro; ?></span>
+                <?php } else { ?>
+                    <span class="badge bg-secondary">Plan gratuito</span>
+                <?php } ?>
+            </div>
+        </div>
+
+        <h2 class="h4">Foto de perfil</h2>
+
+        <?php if ($errorFoto != "") { ?>
+            <div class="alert alert-danger"><?php echo $errorFoto; ?></div>
+        <?php } ?>
+
+        <form method="post" action="perfil.php" enctype="multipart/form-data" class="mb-5">
+            <div class="mb-3">
+                <input type="file" name="imagen" class="form-control" accept=".jpg,.jpeg,.png,.gif">
+                <div class="form-text">JPG, PNG o GIF. Máximo 2 MB.</div>
+            </div>
+            <button type="submit" name="guardar_foto" class="btn btn-primary">Cambiar foto</button>
+        </form>        
 
         <h2 class="h4 mt-4">Mis datos</h2>
 

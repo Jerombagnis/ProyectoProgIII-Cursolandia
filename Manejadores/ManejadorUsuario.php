@@ -92,6 +92,16 @@ class ManejadorUsuario {
             }
         }
     }
+
+    // metodo para cambiar la imagen de perfil de un usuario. Se le pasa el id del usuario y el nombre del archivo de la imagen
+    public function cambiarImagen($id, $nombreArchivo) {
+        $sql = "UPDATE usuarios SET imagen_perfil = '$nombreArchivo' 
+                WHERE id = $id";
+                
+        if (!mysqli_query($this->conexion, $sql)) {
+            throw new Exception("No se pudo guardar la foto de perfil.");
+        }
+    }
 }
 
 ?>
