@@ -5,14 +5,19 @@ include "../Conexiones/conexion.php";
 include "../Clases/Curso.php";
 include "../Clases/Usuario.php";
 include "../Clases/Inscripcion.php";
+include "../Clases/Archivo.php";
 include "../Clases/ControlInscripcion.php";
+include "../Clases/ControlArchivo.php";
 include "../Manejadores/ManejadorCurso.php";
 include "../Manejadores/ManejadorUsuario.php";
 include "../Manejadores/ManejadorInscripcion.php";
+include "../Manejadores/ManejadorArchivo.php";
 
 $curso = null;
 $etiquetas = array ();
 $inscripcion = null;
+$archivo = array (); 
+$puedeVerMaterial = false; 
 $mensaje = "";
 $error = "";
 $errorInscripcion = "";
@@ -33,6 +38,8 @@ try {
     $manejadorCurso = new ManejadorCurso($conexion);
     $manejadorUsuario = new ManejadorUsuario($conexion);
     $manejadorInscripcion = new ManejadorInscripcion($conexion);
+    $manejadorArchivo = new ManejadorArchivo($conexion); 
+
     $curso = $manejadorCurso->buscarPorId($_GET['id']);
 
     if ($curso == null) {
@@ -66,7 +73,18 @@ try {
     }
 
     $etiquetas = $manejadorCurso->etiquetasDeCurso($curso->id);
-    
+
+    // si el usuario esta logueado, se busca su inscripción y si puede ver el material
+    if (isset($_SESSION['usuario_id'])) {
+        $inscripcion = $manejadorInscripcion->buscarPorUsuarioYCurso($_SESSION['usuario_id'], $curso->id);
+
+        $controlArchivo = new ControlArchivo($manejadorArchivo, $manejadorCurso, $manejadorUsuario, $manejadorInscripcion);
+        $puedeVerMaterial = $controlArchivo->puedeVerMaterial($curso, $_SESSION['usuario_id']);
+
+        if ($puedeVerMaterial) {
+            $archivos = $manejadorArchivo->listarPorCurso($curso->id);
+        }
+    }    
 } catch (Exception $e) {
     $error = $e->getMessage();
 }
@@ -149,6 +167,7 @@ include "../Conexiones/cerrar_conexion.php";
         
                     <div class="alert alert-info">Este curso es tuyo.</div>
                     <a href="solicitudes.php?id=<?php echo $curso->id; ?>" class="btn btn-outline-primary">Ver solicitudes e inscriptos</a>
+                    <a href="material_curso.php?id=<?php echo $curso->id; ?>" class="btn btn-outline-primary">Administrar material</a>
 
         <?php } elseif ($inscripcion != null) { ?>
 
@@ -176,7 +195,34 @@ include "../Conexiones/cerrar_conexion.php";
 
         <?php } ?>
 
-    <?php } ?>
+        <?php } ?>
+
+                <?php if ($puedeVerMaterial) { ?>
+
+                <h2 class="h4 mt-5">Material del curso</h2>
+
+                <?php if (count($archivos) == 0) { ?>
+                    <p>Todavía no hay material publicado.</p>
+                <?php } else { ?>
+                    <ul class="list-group">
+                        <?php foreach ($archivos as $archivo) { ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="../uploads/cursos/<?php echo $archivo->ruta; ?>" download="<?php echo $archivo->nombre_original; ?>">
+                                    <?php echo $archivo->nombre_original; ?>
+                                </a>
+                                <span class="text-muted"><?php echo $archivo->tamanoEnTexto(); ?></span>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                <?php } ?>
+
+            <?php } elseif ($inscripcion != null && $inscripcion->estaConfirmada()) { ?>
+
+                <div class="alert alert-secondary mt-4">
+                    El material va a estar disponible cuando empiece el curso (<?php echo $curso->fecha_inicio; ?>).
+                </div>
+
+            <?php } ?>
 
 </div>
 

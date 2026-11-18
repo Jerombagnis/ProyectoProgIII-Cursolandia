@@ -81,11 +81,11 @@ include "../Conexiones/cerrar_conexion.php";
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label class="form-label">Costo (0 = gratuito)</label>
+                <label class="form-label">Costo (Opcional)</label>
                 <input type="number" name="costo" class="form-control" min="0" step="0.01" value="<?php echo $costo; ?>">
             </div>
             <div class="col-md-6 mb-3">
-                <label class="form-label">Cupo (vacío = sin límite)</label>
+                <label class="form-label">Cupo (Opcional)</label>
                 <input type="number" name="cupo" class="form-control" min="1" value="<?php echo $cupo; ?>">
             </div>
         </div>
