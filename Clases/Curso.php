@@ -49,7 +49,10 @@ class Curso {
     public function esCreador($usuario_id) {
         return ($this->creador_id == $usuario_id);
     }
-
+    
+    public function haComenzado(){
+        return (date("Y-m-d") >= $this->$fecha_inicio); 
+    }
     public function haTerminado() {
         return (date("Y-m-d") > $this->fecha_fin);
     }
