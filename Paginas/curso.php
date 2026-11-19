@@ -6,18 +6,23 @@ include "../Clases/Curso.php";
 include "../Clases/Usuario.php";
 include "../Clases/Inscripcion.php";
 include "../Clases/Archivo.php";
+include "../Clases/Pregunta.php";
+include "../Clases/ControlForo.php";
 include "../Clases/ControlInscripcion.php";
 include "../Clases/ControlArchivo.php";
 include "../Manejadores/ManejadorCurso.php";
 include "../Manejadores/ManejadorUsuario.php";
 include "../Manejadores/ManejadorInscripcion.php";
 include "../Manejadores/ManejadorArchivo.php";
+include "../Manejadores/ManejadorPregunta.php";
+include "../Manejadores/ManejadorRespuesta.php";
 
 $curso = null;
 $etiquetas = array ();
 $inscripcion = null;
 $archivo = array (); 
 $puedeVerMaterial = false; 
+$puedeParticipar = false; 
 $mensaje = "";
 $error = "";
 $errorInscripcion = "";
@@ -39,6 +44,9 @@ try {
     $manejadorUsuario = new ManejadorUsuario($conexion);
     $manejadorInscripcion = new ManejadorInscripcion($conexion);
     $manejadorArchivo = new ManejadorArchivo($conexion); 
+    $manejadorPregunta = new ManejadorPregunta($conexion);
+    $manejadorRespuesta = new ManejadorRespuesta($conexion);
+
 
     $curso = $manejadorCurso->buscarPorId($_GET['id']);
 
@@ -84,6 +92,10 @@ try {
         if ($puedeVerMaterial) {
             $archivos = $manejadorArchivo->listarPorCurso($curso->id);
         }
+
+        $controlForo = new ControlForo($manejadorPregunta, $manejadorCurso, $manejadorInscripcion, $manejadorRespuesta);
+        $puedeParticipar = $controlForo->puedeParticipar($curso, $_SESSION['usuario_id']);
+
     }    
 } catch (Exception $e) {
     $error = $e->getMessage();
@@ -197,24 +209,30 @@ include "../Conexiones/cerrar_conexion.php";
 
         <?php } ?>
 
-                <?php if ($puedeVerMaterial) { ?>
+        <?php if ($puedeParticipar) { ?>
+            <p class="mt-4">
+                <a href="foro.php?id=<?php echo $curso->id; ?>" class="btn btn-outline-primary">Ir al foro del curso</a>
+            </p>
+        <?php } ?>
 
-                <h2 class="h4 mt-5">Material del curso</h2>
+        <?php if ($puedeVerMaterial) { ?>
 
-                <?php if (count($archivos) == 0) { ?>
-                    <p>Todavía no hay material publicado.</p>
-                <?php } else { ?>
-                    <ul class="list-group">
-                        <?php foreach ($archivos as $archivo) { ?>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <a href="../uploads/cursos/<?php echo $archivo->ruta; ?>" download="<?php echo $archivo->nombre_original; ?>">
-                                    <?php echo $archivo->nombre_original; ?>
-                                </a>
-                                <span class="text-muted"><?php echo $archivo->tamanoEnTexto(); ?></span>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                <?php } ?>
+            <h2 class="h4 mt-5">Material del curso</h2>
+
+            <?php if (count($archivos) == 0) { ?>
+                        <p>Todavía no hay material publicado.</p>
+                    <?php } else { ?>
+                        <ul class="list-group">
+                            <?php foreach ($archivos as $archivo) { ?>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="../uploads/cursos/<?php echo $archivo->ruta; ?>" download="<?php echo $archivo->nombre_original; ?>">
+                                        <?php echo $archivo->nombre_original; ?>
+                                    </a>
+                                    <span class="text-muted"><?php echo $archivo->tamanoEnTexto(); ?></span>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
 
             <?php } elseif ($inscripcion != null && $inscripcion->estaConfirmada()) { ?>
 

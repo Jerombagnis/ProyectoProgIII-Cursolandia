@@ -62,13 +62,13 @@ include "../Conexiones/cerrar_conexion.php";
                                 <?php } ?>
                             </td>
                             <td>
-                                <?php if ($curso->estaActivo()) { ?>
-                                    <span class="badge bg-primary">Activo</span>
-                                <?php } elseif ($curso->haTerminado()) { ?>
-                                    <span class="badge bg-secondary">Finalizado</span>
-                                <?php } else { ?>
-                                    <span class="badge bg-info text-dark">Próximamente</span>
-                                <?php } ?>
+                                <?php if ($curso->estaActivo() == 'activo' ){ ?>
+                                        <span class="badge bg-success">Activo</span>
+                                    <?php } elseif ($curso->estaActivo()== 'proximamente'){ ?>
+                                        <span class="badge bg-info text-dark">Próximamente</span>
+                                    <?php } else{ ?>
+                                            <span class="badge bg-danger">Finalizado</span>
+                                    <?php } ?>
                             </td>
                             <td>
                                 <?php if ($curso->esGratuito()) { ?>
