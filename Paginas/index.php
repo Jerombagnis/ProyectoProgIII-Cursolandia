@@ -68,16 +68,54 @@ include "../Conexiones/cerrar_conexion.php";
 
 <div class="container my-4">
 
-    <h1 class="mb-3">Cursolandia</h1>
 
-    <form method="get" action="index.php" class="row g-2 mb-4">
-        <div class="col-md-10">
-            <input type="text" name="q" class="form-control" placeholder="Buscar por título o etiqueta" value="<?php echo $q; ?>">
+    <section class="hero-home">
+
+        <div class="hero-content">
+
+            <span class="hero-label">
+                APRENDIZAJE SIN LÍMITES
+            </span>
+
+            <h1>
+                Aprendé algo nuevo.<br>
+                <span>Impulsá tu futuro.</span>
+            </h1>
+
+            <p class="hero-description">
+                Descubrí cursos, desarrollá nuevas habilidades
+                y aprendé a tu propio ritmo.
+            </p>
+
+            <form method="get" action="index.php" class="search-home">
+
+                <div class="search-input-wrapper">
+                    <span class="search-icon">⌕</span>
+
+                    <input
+                        type="text"
+                        name="q"
+                        class="search-input"
+                        placeholder="¿Qué te gustaría aprender?"
+                        value="<?php echo $q; ?>"
+                    >
+                </div>
+
+                <button type="submit" class="search-button">
+                    Buscar cursos
+                    <span>→</span>
+                </button>
+
+            </form>
+
+            <div class="hero-caption">
+                Explorá nuestra colección de cursos y encontrá tu próximo desafío.
+            </div>
+
         </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Buscar</button>
-        </div>
-    </form>
+
+    </section>
+
 
     <?php if ($error != "") { ?>
         <div class="alert alert-danger"><?php echo $error; ?></div>
@@ -85,7 +123,13 @@ include "../Conexiones/cerrar_conexion.php";
 
         <!-- si la variable "q" está vacía y hay sesión iniciada, se muestran primero los recomendados para el usuario -->
         <?php if ($q == "" && isset($_SESSION['usuario_id'])) { ?>
-            <h2 class="h4 mb-3">Recomendados para vos</h2>
+            <div class="section-heading">
+                <span class="section-kicker">PERSONALIZADO</span>
+                <h2 class="section-title">Recomendados para vos</h2>
+                <p class="section-description">
+                    Cursos seleccionados según tus intereses.
+                </p>
+            </div>
 
             <?php if (!$tiene_intereses) { ?>
                 <div class="alert alert-info">
@@ -94,7 +138,7 @@ include "../Conexiones/cerrar_conexion.php";
             <?php } elseif (count($recomendados) == 0) { ?>
                 <p>Por ahora no hay cursos que coincidan con tus intereses.</p>
             <?php } else { ?>
-                <div class="row">
+                <div class="row g-4">
                     <?php foreach ($recomendados as $item) { ?>
                         <?php include "includes/tarjeta_curso.php"; ?>
                     <?php } ?>
@@ -104,8 +148,14 @@ include "../Conexiones/cerrar_conexion.php";
 
         <!-- si la variable "q" está vacía y hay cursos destacados, se muestran primero los destacados -->
         <?php if ($q == "" && count($destacados) > 0) { ?>
-            <h2 class="h4 mb-3">Destacados</h2>
-            <div class="row">
+            <div class="section-heading">
+                <span class="section-kicker">SELECCIÓN EXCLUSIVA</span>
+                <h2 class="section-title">Cursos destacados</h2>
+                <p class="section-description">
+                    Descubrí algunos de los cursos que tenemos para ofrecerte.
+                </p>
+            </div>
+            <div class="row g-4">
 
                 <!-- recorro el array de destacados y por cada uno incluyo la tarjeta de curso -->
                 <?php foreach ($destacados as $item) { ?>
@@ -114,16 +164,28 @@ include "../Conexiones/cerrar_conexion.php";
             </div>
         <?php } ?>
 
-        <?php if ($q != "") { ?>
-            <h2 class="h4 mb-3">Resultados para "<?php echo $q; ?>"</h2>
-        <?php } else { ?>
-            <h2 class="h4 mb-3 mt-3">Todos los cursos</h2>
-        <?php } ?>
+        <div class="section-heading">
+            <span class="section-kicker">EXPLORÁ</span>
+
+            <?php if ($q != "") { ?>
+                <h2 class="section-title">
+                    Resultados para "<?php echo $q; ?>"
+                </h2>
+                <p class="section-description">
+                    Estos cursos coinciden con tu búsqueda.
+                </p>
+            <?php } else { ?>
+                <h2 class="section-title">Todos los cursos</h2>
+                <p class="section-description">
+                    Explorá nuestro catálogo y encontrá algo nuevo para aprender.
+                </p>
+            <?php } ?>
+        </div>
 
         <?php if (count($resultados) == 0) { ?>
             <p>No se encontraron cursos.</p>
         <?php } else { ?>
-            <div class="row">
+            <div class="row g-4">
                 <?php foreach ($resultados as $item) { ?>
                     <?php include "includes/tarjeta_curso.php"; ?>
                 <?php } ?>

@@ -1,0 +1,479 @@
+/* variables e identidad visual */
+
+:root {
+    --color-primary: #2563EB;
+    --color-primary-hover: #1D4ED8;
+    --color-primary-light: #EFF6FF;
+
+    --color-background: #F8FAFC;
+    --color-surface: #FFFFFF;
+
+    --color-text: #172033;
+    --color-text-secondary: #64748B;
+
+    --color-border: #E2E8F0;
+
+    --radius-card: 12px;
+    --radius-button: 8px;
+
+    --shadow-card: 0 2px 8px rgba(15, 23, 42, 0.04);
+    --shadow-hover: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+
+
+/* estilos generales */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    margin: 0;
+}
+
+.site-main {
+    min-height: 80vh;
+}
+
+h1, h2, h3, h4, h5 {
+    color: var(--color-text);
+    font-weight: 700;
+}
+
+
+
+/* navbar */
+
+.navbar-cursolandia {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 14px 0;
+}
+
+.brand-cursolandia {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-text) !important;
+    letter-spacing: -1px;
+}
+
+.brand-cursolandia span {
+    color: var(--color-primary);
+}
+
+.nav-cursolandia {
+    color: var(--color-text-secondary) !important;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-cursolandia:hover {
+    color: var(--color-primary) !important;
+}
+
+.user-greeting {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.nav-logout {
+    color: #DC2626 !important;
+    font-size: 0.9rem;
+}
+
+.nav-logout:hover {
+    color: #991B1B !important;
+}
+
+.btn-nav-register {
+    background-color: var(--color-primary);
+    color: white !important;
+    border-radius: var(--radius-button);
+    padding: 9px 16px !important;
+    font-weight: 600;
+}
+
+.btn-nav-register:hover {
+    background-color: var(--color-primary-hover);
+}
+
+
+
+/* tarjetas de cursos */
+
+.curso-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.curso-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.curso-card-body {
+    padding: 22px;
+    flex-grow: 1;
+}
+
+.curso-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.curso-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.curso-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-gratuito {
+    background-color: #DCFCE7;
+    color: #166534;
+}
+
+.badge-precio {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.badge-activo {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}
+
+.badge-proximamente {
+    background-color: #F1F5F9;
+    color: #475569;
+}
+
+.curso-card-description {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.curso-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.curso-tag {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.curso-card-footer {
+    padding: 16px 22px;
+    border-top: 1px solid var(--color-border);
+}
+
+
+/* Botón de acción de las tarjetas */
+
+.btn-cursolandia {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0px;
+
+    background-color: #adc7ff1f;
+    color: #2563EB;
+    text-decoration: none;
+
+    padding: 7px 15px;
+    border: 2px solid #2563EB;
+    border-radius: 8px;
+
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+
+    transition: all 0.2s ease;
+}
+
+
+.btn-cursolandia:hover {
+    background-color: #1D4ED8;
+    border-color: #1D4ED8;
+    color: #FFFFFF;
+
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.22);
+}
+
+.btn-cursolandia:hover::after {
+    transform: translateX(3px);
+}
+
+.btn-cursolandia:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.3);
+    outline-offset: 3px;
+}
+
+
+
+/* responsive */
+
+@media (max-width: 991px) {
+    .navbar-nav {
+        padding-top: 12px;
+    }
+
+    .navbar-nav .nav-item {
+        padding: 3px 0;
+    }
+
+    .btn-nav-register {
+        display: inline-block;
+        margin-top: 5px;
+    }
+}
+
+
+
+/* portada - home  */
+
+.hero-home {
+    background: linear-gradient(
+        135deg,
+        #FFFFFF 0%,
+        #EFF6FF 100%
+    );
+
+    border: 1px solid #DBEAFE;
+    border-radius: 18px;
+
+    padding: 65px 30px;
+    margin-bottom: 48px;
+
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.hero-label {
+    display: inline-block;
+
+    color: #2563EB;
+    background-color: #DBEAFE;
+
+    padding: 7px 14px;
+    border-radius: 20px;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    margin-bottom: 22px;
+}
+
+.hero-home h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+
+    margin-bottom: 18px;
+}
+
+.hero-home h1 span {
+    color: var(--color-primary);
+}
+
+.hero-description {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+
+    max-width: 540px;
+    margin: 0 auto 30px;
+}
+
+
+/* buscador */
+
+.search-home {
+    display: flex;
+    gap: 10px;
+
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    flex: 1;
+    min-width: 0;
+
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+
+    padding: 0 15px;
+
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.search-input-wrapper:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.search-icon {
+    color: #94A3B8;
+    font-size: 1.5rem;
+}
+
+.search-input {
+    width: 100%;
+    min-width: 0;
+
+    border: none;
+    outline: none;
+
+    padding: 14px 0;
+
+    color: var(--color-text);
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.search-input::placeholder {
+    color: #94A3B8;
+}
+
+.search-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+
+    border: none;
+    border-radius: 9px;
+
+    padding: 0 22px;
+
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-button:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.search-button span {
+    font-size: 1.1rem;
+}
+
+.hero-caption {
+    color: #94A3B8;
+    font-size: 0.78rem;
+    margin-top: 18px;
+}
+
+
+/* responsive */
+
+@media (max-width: 576px) {
+
+    .hero-home {
+        padding: 42px 18px;
+        margin-bottom: 35px;
+    }
+
+    .hero-home h1 {
+        letter-spacing: -0.8px;
+    }
+
+    .hero-description {
+        font-size: 0.92rem;
+    }
+
+    .search-home {
+        flex-direction: column;
+    }
+
+    .search-input-wrapper {
+        width: 100%;
+    }
+
+    .search-button {
+        min-height: 46px;
+    }
+}
+
+/* encabezados de secciones */
+
+.section-heading {
+    margin-top: 42px;
+    margin-bottom: 24px;
+}
+
+.section-kicker {
+    display: block;
+    color: var(--color-primary);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+}
+
+.section-title {
+    color: var(--color-text);
+    font-size: 1.65rem;
+    font-weight: 750;
+    letter-spacing: -.5px;
+    margin-bottom: 8px;
+}
+
+.section-description {
+    color: var(--color-text-secondary);
+    font-size: .9rem;
+    margin-bottom: 0;
+}

@@ -6,24 +6,25 @@ $etiquetas = $item['etiquetas'];
 ?>
 <div class="col-md-4 mb-4">
     <div class="card h-100">
-        <div class="card-body">
-            <h5 class="card-title"><?php echo $curso->titulo; ?></h5>
+        <div class="curso-card-body">
+            <h5 class="curso-card-title"><?php echo $curso->titulo; ?></h5>
 
-            <p>
+
+            <div class="curso-meta">
                 <?php if ($curso->esGratuito()) { ?>
-                    <span class="badge bg-success">Gratuito</span>
+                    <span class="curso-badge badge-gratuito">Gratuito</span>
                 <?php } else { ?>
-                    <span class="badge bg-warning text-dark">$<?php echo $curso->costo; ?></span>
+                    <span class="curso-badge badge-precio">$<?php echo $curso->costo; ?></span>
                 <?php } ?>
 
                 <?php if ($curso->estaActivo()=='activo') { ?>
-                    <span class="badge bg-primary">Activo</span>
+                    <span class="curso-badge badge-activo">Activo</span>
                 <?php } else if ($curso->estaActivo() == 'proximamente'){ ?>
-                    <span class="badge bg-info text-dark">Próximamente</span>
+                    <span class="curso-badge badge-proximamente">Próximamente</span>
                 <?php } ?>
-            </p>
+            </div>
 
-            <p class="card-text">
+            <p class="curso-card-description">
                 <?php
 
                 // controlo que solo muestre los primeros 100 caracteres de la descripción
@@ -35,12 +36,16 @@ $etiquetas = $item['etiquetas'];
                 ?>
             </p>
 
-            <?php foreach ($etiquetas as $etiqueta) { ?>
-                <span class="badge rounded-pill text-bg-light border"><?php echo $etiqueta['nombre']; ?></span>
-            <?php } ?>
+            <div class="curso-tags">
+                <?php foreach ($etiquetas as $etiqueta) { ?>
+                    <span class="curso-tag">
+                        <?php echo $etiqueta['nombre']; ?>
+                    </span>
+                <?php } ?>
+            </div>
         </div>
-        <div class="card-footer bg-transparent">
-            <a href="curso.php?id=<?php echo $curso->id; ?>" class="btn btn-primary btn-sm">Ver curso</a>
+        <div class="curso-card-footer">
+            <a href="curso.php?id=<?php echo $curso->id; ?>" class="btn-cursolandia">Ver curso</a>
         </div>
     </div>
 </div>
