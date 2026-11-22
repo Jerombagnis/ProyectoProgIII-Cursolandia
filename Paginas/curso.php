@@ -122,90 +122,171 @@ include "../Conexiones/cerrar_conexion.php";
             <div class="alert alert-danger"><?php echo $errorInscripcion; ?></div>
         <?php } ?>
 
-        <h1><?php echo $curso->titulo; ?></h1>
+        <section class="curso-detail-hero">
 
-        <p>
-            <?php if ($curso->esGratuito()) { ?>
-                <span class="badge bg-success">Gratuito</span>
-            <?php } else { ?>
-                <span class="badge bg-warning text-dark">$<?php echo $curso->costo; ?></span>
-            <?php } ?>
+            <span class="curso-detail-kicker">DETALLE DEL CURSO</span>
 
-            <?php if ($curso->esPrivado()) { ?>
-                <span class="badge bg-secondary">Privado</span>
-            <?php } else { ?>
-                <span class="badge bg-primary">Público</span>
-            <?php } ?>
+            <h1 class="curso-detail-title">
+                <?php echo $curso->titulo; ?>
+            </h1>
 
-            <?php if ($curso->estaActivo() == "proximamente") { ?>
-                <span class="badge bg-info">Próximamente</span>
-            <?php } else if ($curso->estaActivo() == "activo") { ?>
-                <span class="badge bg-success">Activo</span>
-            <?php } else { ?>   
-                <span class="badge bg-danger">Finalizado</span>
-            <?php } ?>
-        </p>
+            <div class="curso-detail-badges">
 
-        <p><?php echo $curso->descripcion; ?></p>
-
-        <?php if (count($etiquetas) > 0) { ?>
-            <p>
-                <?php foreach ($etiquetas as $etiqueta) { ?>
-                    <span class="badge rounded-pill text-bg-light border"><?php echo $etiqueta['nombre']; ?></span>
+                <?php if ($curso->esGratuito()) { ?>
+                    <span class="curso-badge badge-gratuito">Gratuito</span>
+                <?php } else { ?>
+                    <span class="curso-badge badge-precio">
+                        $<?php echo $curso->costo; ?>
+                    </span>
                 <?php } ?>
+
+                <?php if ($curso->esPrivado()) { ?>
+                    <span class="curso-badge badge-privado">Privado</span>
+                <?php } else { ?>
+                    <span class="curso-badge badge-publico">Público</span>
+                <?php } ?>
+
+                <?php if ($curso->estaActivo() == "proximamente") { ?>
+                    <span class="curso-badge badge-proximamente">Próximamente</span>
+                <?php } elseif ($curso->estaActivo() == "activo") { ?>
+                    <span class="curso-badge badge-activo">Activo</span>
+                <?php } else { ?>
+                    <span class="curso-badge badge-finalizado">Finalizado</span>
+                <?php } ?>
+
+            </div>
+
+            <p class="curso-detail-description">
+                <?php echo $curso->descripcion; ?>
             </p>
-        <?php } ?>
 
-        <ul class="list-group mb-3">
-            <li class="list-group-item"><strong>Inicio:</strong> <?php echo $curso->fecha_inicio; ?></li>
-            <li class="list-group-item"><strong>Fin:</strong> <?php echo $curso->fecha_fin; ?></li>
-            <li class="list-group-item">
-                <strong>Cupo:</strong>
-                <?php
-                if ($curso->cupo == "") {
-                    echo "Sin límite";
-                } else {
-                    echo $curso->cupo;
-                }
-                ?>
-            </li>
-        </ul>
-
-        <?php if (!isset($_SESSION['usuario_id'])) { ?>
-
-            <a href="login.php" class="btn btn-primary">Iniciá sesión para inscribirte</a>
-
-        <?php } elseif ($curso->esCreador($_SESSION['usuario_id'])) { ?>
-        
-                    <div class="alert alert-info">Este curso es tuyo.</div>
-                    <a href="solicitudes.php?id=<?php echo $curso->id; ?>" class="btn btn-outline-primary">Ver solicitudes e inscriptos</a>
-                    <a href="material_curso.php?id=<?php echo $curso->id; ?>" class="btn btn-outline-primary">Administrar material</a>
-
-        <?php } elseif ($inscripcion != null) { ?>
-
-            <?php if ($inscripcion->estaConfirmada()) { ?>
-                <div class="alert alert-success">Estás inscripto en este curso.</div>
-            <?php } elseif ($inscripcion->estaPendiente()) { ?>
-                <div class="alert alert-warning">Tu inscripción está pendiente de confirmación.</div>
-            <?php } else { ?>
-                <div class="alert alert-danger">El creador rechazó tu solicitud.</div>
+            <?php if (count($etiquetas) > 0) { ?>
+                <div class="curso-tags">
+                    <?php foreach ($etiquetas as $etiqueta) { ?>
+                        <span class="curso-tag">
+                            <?php echo $etiqueta['nombre']; ?>
+                        </span>
+                    <?php } ?>
+                </div>
             <?php } ?>
 
-        <?php } elseif ($curso->estaActivo() == "activo") { ?>
+        </section>
 
-            <form method="post" action="curso.php?id=<?php echo $curso->id; ?>">
-                <button type="submit" name="inscribirse" class="btn btn-primary">Inscribirme</button>
-            </form>
+        <div class="curso-info-card">
 
-        <?php } elseif ($curso->estaActivo() == "proximamente") { ?>
+            <h2 class="curso-subtitle">Información del curso</h2>
 
-            <div class="alert alert-info">Este curso está próximo a activarse.</div>
+            <div class="curso-info-grid">
 
-        <?php } else { ?>
+                <div class="curso-info-item">
+                    <span class="curso-info-label">Fecha de inicio</span>
+                    <strong><?php echo $curso->fecha_inicio; ?></strong>
+                </div>
 
-            <div class="alert alert-secondary">Este curso no está activo, no se puede inscribir.</div>
+                <div class="curso-info-item">
+                    <span class="curso-info-label">Fecha de finalización</span>
+                    <strong><?php echo $curso->fecha_fin; ?></strong>
+                </div>
 
-        <?php } ?>
+                <div class="curso-info-item">
+                    <span class="curso-info-label">Cupo</span>
+                    <strong>
+                        <?php
+                        if ($curso->cupo == "") {
+                            echo "Sin límite";
+                        } else {
+                            echo $curso->cupo;
+                        }
+                        ?>
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <aside class="curso-detail-sidebar">
+
+            <div class="curso-action-card">
+
+                <span class="curso-action-kicker">TU EXPERIENCIA DE APRENDIZAJE</span>
+
+                <h2 class="curso-action-title">Inscripción al curso</h2>
+
+                <?php if (!isset($_SESSION['usuario_id'])) { ?>
+
+                    <p>Iniciá sesión para poder inscribirte y acceder al contenido.</p>
+
+                    <a href="login.php" class="btn-cursolandia btn-curso-full">
+                        Iniciar sesión
+                    </a>
+
+                <?php } elseif ($curso->esCreador($_SESSION['usuario_id'])) { ?>
+
+                    <div class="curso-status-message">
+                        Este curso es tuyo.
+                    </div>
+
+                    <a href="solicitudes.php?id=<?php echo $curso->id; ?>" class="btn-cursolandia btn-curso-full">
+                        Ver solicitudes e inscriptos
+                    </a>
+
+                    <a href="material_curso.php?id=<?php echo $curso->id; ?>" class="btn-curso-secondary btn-curso-full">
+                        Administrar material
+                    </a>
+
+                <?php } elseif ($inscripcion != null) { ?>
+
+                    <?php if ($inscripcion->estaConfirmada()) { ?>
+
+                        <div class="curso-status-message status-confirmada">
+                            <strong>¡Ya estás inscripto!</strong>
+                            <span>Tenés acceso al curso.</span>
+                        </div>
+
+                    <?php } elseif ($inscripcion->estaPendiente()) { ?>
+
+                        <div class="curso-status-message status-pendiente">
+                            <strong>Inscripción pendiente</strong>
+                            <span>El creador debe confirmar tu solicitud.</span>
+                        </div>
+
+                    <?php } else { ?>
+
+                        <div class="curso-status-message status-rechazada">
+                            <strong>Solicitud rechazada</strong>
+                            <span>El creador rechazó tu inscripción.</span>
+                        </div>
+
+                    <?php } ?>
+
+                <?php } elseif ($curso->estaActivo() == "activo") { ?>
+
+                    <p>Ya podés formar parte de este curso. ¡Inscribite!</p>
+
+                    <form method="post" action="curso.php?id=<?php echo $curso->id; ?>">
+                        <button type="submit" name="inscribirse" class="btn-cursolandia btn-curso-full">
+                            Inscribirme
+                        </button>
+                    </form>
+
+                <?php } elseif ($curso->estaActivo() == "proximamente") { ?>
+
+                    <div class="curso-status-message status-pendiente">
+                        Este curso todavía no está disponible para inscripción.
+                    </div>
+
+                <?php } else { ?>
+
+                    <div class="curso-status-message status-rechazada">
+                        Este curso finalizó y ya no admite inscripciones.
+                    </div>
+
+                <?php } ?>
+
+            </div>
+
+        </aside>
 
         <?php } ?>
 
@@ -217,22 +298,49 @@ include "../Conexiones/cerrar_conexion.php";
 
         <?php if ($puedeVerMaterial) { ?>
 
-            <h2 class="h4 mt-5">Material del curso</h2>
+        <div class="curso-material-card">
+
+            <h2 class="curso-subtitle">Material del curso</h2>
 
             <?php if (count($archivos) == 0) { ?>
-                        <p>Todavía no hay material publicado.</p>
-                    <?php } else { ?>
-                        <ul class="list-group">
-                            <?php foreach ($archivos as $archivo) { ?>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="../uploads/cursos/<?php echo $archivo->ruta; ?>" download="<?php echo $archivo->nombre_original; ?>">
-                                        <?php echo $archivo->nombre_original; ?>
-                                    </a>
-                                    <span class="text-muted"><?php echo $archivo->tamanoEnTexto(); ?></span>
-                                </li>
-                            <?php } ?>
-                        </ul>
+
+                <p class="curso-empty-message">
+                    Todavía no hay material publicado.
+                </p>
+
+            <?php } else { ?>
+
+                <div class="curso-archivos-list">
+
+                    <?php foreach ($archivos as $archivo) { ?>
+
+                        <div class="curso-archivo-item">
+
+                            <div class="curso-archivo-info">
+                                <span class="curso-archivo-name">
+                                    <?php echo $archivo->nombre_original; ?>
+                                </span>
+
+                                <span class="curso-archivo-size">
+                                    <?php echo $archivo->tamanoEnTexto(); ?>
+                                </span>
+                            </div>
+
+                            <a href="../uploads/cursos/<?php echo $archivo->ruta; ?>"
+                            download="<?php echo $archivo->nombre_original; ?>"
+                            class="btn-descargar">
+                                Descargar
+                            </a>
+
+                        </div>
+
                     <?php } ?>
+
+                </div>
+
+            <?php } ?>
+
+        </div>
 
             <?php } elseif ($inscripcion != null && $inscripcion->estaConfirmada()) { ?>
 
