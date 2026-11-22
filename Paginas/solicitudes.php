@@ -87,76 +87,157 @@ include "../Conexiones/cerrar_conexion.php";
         <a href="index.php" class="btn btn-secondary">Volver al inicio</a>
     <?php } else { ?>
 
-        <h1 class="mb-1">Solicitudes</h1>
-        <p class="text-muted"><?php echo $curso->titulo; ?></p>
+        <div class="solicitudes-header">
+
+            <div>
+                <span class="section-kicker">GESTIÓN DEL CURSO</span>
+                <h1 class="solicitudes-title">Solicitudes e inscriptos</h1>
+                <p class="section-description">
+                    Administrá las solicitudes de inscripción de:
+                    <strong><?php echo $curso->titulo; ?></strong>
+                </p>
+            </div>
+
+            <a href="curso.php?id=<?php echo $curso->id; ?>" class="btn-curso-secondary">
+                Volver al curso
+            </a>
+
+        </div>    
 
         <?php if ($mensaje != "") { ?>
-            <div class="alert alert-success"><?php echo $mensaje; ?></div>
+            <div class="solicitudes-alert solicitudes-alert-success">
+                <?php echo $mensaje; ?>
+            </div>
         <?php } ?>
 
         <?php if ($errorAccion != "") { ?>
-            <div class="alert alert-danger"><?php echo $errorAccion; ?></div>
+            <div class="solicitudes-alert solicitudes-alert-error">
+                <?php echo $errorAccion; ?>
+            </div>
         <?php } ?>
 
-        <h2 class="h4 mt-4">Pendientes de confirmación</h2>
+        <section class="solicitudes-section">
 
-        <?php if (count($pendientes) == 0) { ?>
-            <p>No hay solicitudes pendientes.</p>
-        <?php } else { ?>
-            <table class="table align-middle">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Fecha</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="solicitudes-section-header">
+                <div>
+                    <span class="section-kicker">REVISIÓN</span>
+                    <h2 class="solicitudes-section-title">Pendientes de confirmación</h2>
+                </div>
+
+                <span class="solicitudes-count">
+                    <?php echo count($pendientes); ?>
+                </span>
+            </div>
+
+            <?php if (count($pendientes) == 0) { ?>
+
+                <div class="solicitudes-empty">
+                    No hay solicitudes pendientes por el momento.
+                </div>
+
+            <?php } else { ?>
+
+                <div class="solicitudes-grid">
+
                     <?php foreach ($pendientes as $fila) { ?>
-                        <tr>
-                            <td><?php echo $fila['nombre']; ?></td>
-                            <td><?php echo $fila['email']; ?></td>
-                            <td><?php echo $fila['fecha_inscripcion']; ?></td>
-                            <td>
-                                <form method="post" action="solicitudes.php?id=<?php echo $curso->id; ?>" class="d-inline">
+
+                        <article class="solicitud-card">
+
+                            <div class="solicitud-card-info">
+                                <h3><?php echo $fila['nombre']; ?></h3>
+                                <p><?php echo $fila['email']; ?></p>
+
+                                <span class="solicitud-fecha">
+                                    Inscripción: <?php echo $fila['fecha_inscripcion']; ?>
+                                </span>
+                            </div>
+
+                            <div class="solicitud-card-actions">
+
+                                <form method="post" action="solicitudes.php?id=<?php echo $curso->id; ?>">
+
                                     <input type="hidden" name="inscripcion_id" value="<?php echo $fila['id']; ?>">
-                                    <button type="submit" name="accion" value="confirmar" class="btn btn-success btn-sm">Confirmar</button>
-                                    <button type="submit" name="accion" value="rechazar" class="btn btn-outline-danger btn-sm">Rechazar</button>
+
+                                    <button type="submit" name="accion" value="confirmar" class="btn-confirmar">
+                                        Confirmar
+                                    </button>
+
+                                    <button type="submit" name="accion" value="rechazar" class="btn-rechazar">
+                                        Rechazar
+                                    </button>
+
                                 </form>
-                            </td>
-                        </tr>
+
+                            </div>
+
+                        </article>
+
                     <?php } ?>
-                </tbody>
-            </table>
-        <?php } ?>
 
-        <h2 class="h4 mt-5">Inscriptos confirmados</h2>
+                </div>
 
-        <?php if (count($confirmadas) == 0) { ?>
-            <p>Todavía no hay inscriptos confirmados.</p>
-        <?php } else { ?>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($confirmadas as $fila) { ?>
-                        <tr>
-                            <td><?php echo $fila['nombre']; ?></td>
-                            <td><?php echo $fila['email']; ?></td>
-                            <td><?php echo $fila['fecha_inscripcion']; ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        <?php } ?>
+            <?php } ?>
 
-        <a href="curso.php?id=<?php echo $curso->id; ?>" class="btn btn-secondary">Volver al curso</a>
+        </section>
+
+        <section class="solicitudes-section">
+
+            <div class="solicitudes-section-header">
+                <div>
+                    <span class="section-kicker">ALUMNOS</span>
+                    <h2 class="solicitudes-section-title">Inscriptos confirmados</h2>
+                </div>
+
+                <span class="solicitudes-count solicitudes-count-confirmadas">
+                    <?php echo count($confirmadas); ?>
+                </span>
+            </div>
+
+            <?php if (count($confirmadas) == 0) { ?>
+
+                <div class="solicitudes-empty">
+                    Todavía no hay alumnos inscriptos en este curso.
+                </div>
+
+            <?php } else { ?>
+
+                <div class="table-responsive solicitudes-table-container">
+
+                    <table class="table solicitudes-table align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Alumno</th>
+                                <th>Correo electrónico</th>
+                                <th>Fecha de inscripción</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <?php foreach ($confirmadas as $fila) { ?>
+
+                                <tr>
+                                    <td class="solicitudes-alumno">
+                                        <?php echo $fila['nombre']; ?>
+                                    </td>
+
+                                    <td><?php echo $fila['email']; ?></td>
+
+                                    <td><?php echo $fila['fecha_inscripcion']; ?></td>
+                                </tr>
+
+                            <?php } ?>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            <?php } ?>
+
+        </section>
 
     <?php } ?>
 </div>

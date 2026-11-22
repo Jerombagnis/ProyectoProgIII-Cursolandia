@@ -849,3 +849,351 @@ h1, h2, h3, h4, h5 {
     }
 }
 
+/* mis cursos */
+
+.mis-cursos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.mis-cursos-title {
+    color: var(--color-text);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 8px;
+}
+
+.mis-cursos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.mis-curso-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+}
+
+.mis-curso-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.mis-curso-card-title {
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.mis-curso-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.mis-curso-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px;
+    background: #F8FAFC;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+}
+
+.mis-curso-label {
+    color: var(--color-text-secondary);
+    font-size: 0.78rem;
+}
+
+.mis-curso-detail strong {
+    color: var(--color-text);
+    font-size: 0.9rem;
+}
+
+.mis-curso-pendientes {
+    margin-bottom: 20px;
+}
+
+.solicitudes-pendientes {
+    display: inline-block;
+    padding: 7px 11px;
+    border-radius: 7px;
+    background: #FEF3C7;
+    color: #92400E;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.mis-curso-sin-pendientes {
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+}
+
+.mis-curso-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.mis-curso-actions .btn-cursolandia,
+.mis-curso-actions .btn-curso-secondary {
+    flex: 1;
+    margin-top: 0;
+}
+
+@media (max-width: 800px) {
+    .mis-cursos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .mis-cursos-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .mis-curso-actions {
+        flex-direction: column;
+    }
+}
+
+/* gestion de solicitudes */
+
+.solicitudes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.solicitudes-title {
+    color: var(--color-text);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 8px;
+}
+
+.solicitudes-alert {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.solicitudes-alert-success {
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    color: #065F46;
+}
+
+.solicitudes-alert-error {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: #991B1B;
+}
+
+.solicitudes-section {
+    margin-top: 36px;
+}
+
+.solicitudes-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.solicitudes-section-title {
+    color: var(--color-text);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 5px 0 0;
+}
+
+.solicitudes-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 10px;
+    background: #FEF3C7;
+    color: #92400E;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.solicitudes-count-confirmadas {
+    background: #DBEAFE;
+    color: #1E40AF;
+}
+
+.solicitudes-empty {
+    padding: 28px;
+    background: #fff;
+    border: 1px dashed var(--color-border);
+    border-radius: 12px;
+    color: var(--color-text-secondary);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.solicitudes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.solicitud-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 22px;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+}
+
+.solicitud-card-info {
+    min-width: 0;
+}
+
+.solicitud-card-info h3 {
+    color: var(--color-text);
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 5px;
+}
+
+.solicitud-card-info p {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    margin: 0 0 12px;
+    overflow-wrap: anywhere;
+}
+
+.solicitud-fecha {
+    color: var(--color-text-secondary);
+    font-size: 0.78rem;
+}
+
+.solicitud-card-actions form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-confirmar,
+.btn-rechazar {
+    border: none;
+    border-radius: 7px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-confirmar {
+    background: #2563EB;
+    color: #fff;
+}
+
+.btn-confirmar:hover {
+    background: #1D4ED8;
+}
+
+.btn-rechazar {
+    background: #FEF2F2;
+    color: #B91C1C;
+}
+
+.btn-rechazar:hover {
+    background: #FEE2E2;
+}
+
+.solicitudes-table-container {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.solicitudes-table {
+    margin-bottom: 0;
+}
+
+.solicitudes-table thead th {
+    padding: 16px 20px;
+    background: #F8FAFC;
+    color: var(--color-text-secondary);
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.solicitudes-table tbody td {
+    padding: 16px 20px;
+    color: var(--color-text-secondary);
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.solicitudes-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.solicitudes-alumno {
+    color: var(--color-text) !important;
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .solicitudes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .solicitudes-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .solicitud-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .solicitud-card-actions {
+        width: 100%;
+    }
+
+    .solicitud-card-actions form {
+        flex-direction: row;
+    }
+}
+

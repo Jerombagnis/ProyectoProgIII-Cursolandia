@@ -37,9 +37,20 @@ include "../Conexiones/cerrar_conexion.php";
 
 <div class="container my-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0">Mis cursos</h1>
-        <a href="crear_curso.php" class="btn btn-primary">Crear curso</a>
+    <div class="mis-cursos-header">
+
+        <div>
+            <span class="section-kicker">PANEL DE GESTIÓN</span>
+            <h1 class="mis-cursos-title">Mis cursos</h1>
+            <p class="section-description">
+                Administrá tus cursos, revisá las inscripciones y seguí su actividad.
+            </p>
+        </div>
+
+        <a href="crear_curso.php" class="btn-cursolandia">
+            Crear curso
+        </a>
+
     </div>
 
     <?php if ($error != "") { ?>
@@ -48,61 +59,79 @@ include "../Conexiones/cerrar_conexion.php";
         <p>Todavía no creaste ningún curso.</p>
     <?php } else { ?>
 
-        <div class="table-responsive">
-            <table class="table align-middle">
-                <thead>
-                    <tr>
-                        <th>Curso</th>
-                        <th>Estado</th>
-                        <th>Acceso</th>
-                        <th>Costo</th>
-                        <th>Solicitudes</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($items as $item) { ?>
-                        <?php $curso = $item['curso']; ?>
-                        <tr>
-                            <td><?php echo $curso->titulo; ?></td>
-                            <td>
-                                <?php if ($curso->estaActivo() == 'activo' ){ ?>
-                                        <span class="badge bg-success">Activo</span>
-                                    <?php } elseif ($curso->estaActivo()== 'proximamente'){ ?>
-                                        <span class="badge bg-info text-dark">Próximamente</span>
-                                    <?php } else{ ?>
-                                            <span class="badge bg-danger">Finalizado</span>
-                                    <?php } ?>
-                            </td>
-                            <td>
+        <div class="mis-cursos-grid">
+
+            <?php foreach ($items as $item) { ?>
+                <?php $curso = $item['curso']; ?>
+
+                <article class="mis-curso-card">
+
+                    <div class="mis-curso-card-header">
+                        <h2 class="mis-curso-card-title">
+                            <?php echo $curso->titulo; ?>
+                        </h2>
+
+                        <?php if ($curso->estaActivo() == 'activo') { ?>
+                            <span class="curso-badge badge-activo">Activo</span>
+                        <?php } elseif ($curso->estaActivo() == 'proximamente') { ?>
+                            <span class="curso-badge badge-proximamente">Próximamente</span>
+                        <?php } else { ?>
+                            <span class="curso-badge badge-finalizado">Finalizado</span>
+                        <?php } ?>
+                    </div>
+
+                    <div class="mis-curso-details">
+
+                        <div class="mis-curso-detail">
+                            <span class="mis-curso-label">Acceso</span>
+                            <strong>
                                 <?php if ($curso->esPrivado()) { ?>
                                     Privado
                                 <?php } else { ?>
                                     Público
                                 <?php } ?>
-                            </td>
-                            <td>
+                            </strong>
+                        </div>
+
+                        <div class="mis-curso-detail">
+                            <span class="mis-curso-label">Costo</span>
+                            <strong>
                                 <?php if ($curso->esGratuito()) { ?>
                                     Gratuito
                                 <?php } else { ?>
                                     $<?php echo $curso->costo; ?>
                                 <?php } ?>
-                            </td>
-                            <td>
-                                <?php if ($item['pendientes'] > 0) { ?>
-                                    <span class="badge bg-warning text-dark"><?php echo $item['pendientes']; ?> pendiente(s)</span>
-                                <?php } else { ?>
-                                    -
-                                <?php } ?>
-                            </td>
-                            <td class="text-end">
-                                <a href="curso.php?id=<?php echo $curso->id; ?>" class="btn btn-outline-primary btn-sm">Ver</a>
-                                <a href="solicitudes.php?id=<?php echo $curso->id; ?>" class="btn btn-outline-secondary btn-sm">Solicitudes e inscriptos</a>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <div class="mis-curso-pendientes">
+                        <?php if ($item['pendientes'] > 0) { ?>
+                            <span class="solicitudes-pendientes">
+                                <?php echo $item['pendientes']; ?> solicitud(es) pendiente(s)
+                            </span>
+                        <?php } else { ?>
+                            <span class="mis-curso-sin-pendientes">
+                                No hay solicitudes pendientes
+                            </span>
+                        <?php } ?>
+                    </div>
+
+                    <div class="mis-curso-actions">
+                        <a href="curso.php?id=<?php echo $curso->id; ?>" class="btn-cursolandia">
+                            Ver curso
+                        </a>
+
+                        <a href="solicitudes.php?id=<?php echo $curso->id; ?>" class="btn-curso-secondary">
+                            Solicitudes e inscriptos
+                        </a>
+                    </div>
+
+                </article>
+
+            <?php } ?>
+
         </div>
 
     <?php } ?>
