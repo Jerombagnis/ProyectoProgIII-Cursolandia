@@ -161,118 +161,256 @@ include "../Conexiones/cerrar_conexion.php";
         <div class="alert alert-danger"><?php echo $error; ?></div>
     <?php } else { ?>
 
-        <h1 class="mb-4">Mi perfil</h1>
+        <div class="perfil-page-header">
+            <div>
+                <span class="section-kicker">CONFIGURACIÓN DE CUENTA</span>
+                <h1 class="perfil-page-title">Mi perfil</h1>
+                <p class="section-description">
+                    Administrá tu información personal y las preferencias de tu cuenta.
+                </p>
+            </div>
+        </div>
 
         <?php if ($mensaje != "") { ?>
             <div class="alert alert-success"><?php echo $mensaje; ?></div>
         <?php } ?>
 
-        <div class="d-flex align-items-center mb-4">
-            <img src="../Archivos/Perfiles/<?php echo $usuario->imagenPerfil; ?>" alt="Foto de perfil"
-                 class="rounded-circle border me-3" style="width: 100px; height: 100px; object-fit: cover;">
-            <div>
-                <p class="mb-1 fw-bold"><?php echo $usuario->nombre . " " . $usuario->apellido; ?></p>
+        <section class="perfil-resumen">
+
+            <img
+                src="../Archivos/Perfiles/<?php echo $usuario->imagenPerfil; ?>"
+                alt="Foto de perfil"
+                class="perfil-avatar"
+            >
+
+            <div class="perfil-resumen-info">
+                <h2>
+                    <?php echo $usuario->nombre . " " . $usuario->apellido; ?>
+                </h2>
+
+                <p><?php echo $usuario->email; ?></p>
+
                 <?php if ($usuario->esPro()) { ?>
-                    <span class="badge bg-warning text-dark">Plan Pro hasta <?php echo $usuario->vencimientoPro; ?></span>
+                    <span class="perfil-plan perfil-plan-pro">
+                        Plan Pro hasta <?php echo $usuario->vencimientoPro; ?>
+                    </span>
                 <?php } else { ?>
-                    <span class="badge bg-secondary">Plan gratuito</span>
+                    <span class="perfil-plan perfil-plan-gratuito">
+                        Plan gratuito
+                    </span>
                 <?php } ?>
             </div>
-        </div>
 
-        <h2 class="h4">Foto de perfil</h2>
+        </section>
 
-        <?php if ($errorFoto != "") { ?>
-            <div class="alert alert-danger"><?php echo $errorFoto; ?></div>
-        <?php } ?>
+        <section class="perfil-card">
 
-        <form method="post" action="perfil.php" enctype="multipart/form-data" class="mb-5">
-            <div class="mb-3">
-                <input type="file" name="imagen" class="form-control" accept=".jpg,.jpeg,.png,.gif">
-                <div class="form-text">JPG, PNG o GIF. Máximo 2 MB.</div>
-            </div>
-            <button type="submit" name="guardar_foto" class="btn btn-primary">Cambiar foto</button>
-        </form>        
-
-        <h2 class="h4 mt-4">Mis datos</h2>
-
-        <?php if ($errorDatos != "") { ?>
-            <div class="alert alert-danger"><?php echo $errorDatos; ?></div>
-        <?php } ?>
-
-        <form method="post" action="perfil.php" class="mb-5">
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="text" class="form-control" value="<?php echo $usuario->email; ?>" disabled>
-                <div class="form-text">El email no se puede modificar.</div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" name="nombre" class="form-control" value="<?php echo $nombre; ?>">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Apellido</label>
-                    <input type="text" name="apellido" class="form-control" value="<?php echo $apellido; ?>">
+            <div class="perfil-card-heading">
+                <div>
+                    <span class="section-kicker">IMAGEN DE CUENTA</span>
+                    <h2 class="perfil-section-title">Foto de perfil</h2>
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Antecedentes (opcional)</label>
-                <textarea name="antecedentes" class="form-control" rows="4"><?php echo $antecedentes; ?></textarea>
+            <?php if ($errorFoto != "") { ?>
+                <div class="perfil-alert perfil-alert-error">
+                    <?php echo $errorFoto; ?>
+                </div>
+            <?php } ?>
+
+            <form method="post" action="perfil.php" enctype="multipart/form-data" class="perfil-form">
+
+                <div class="perfil-form-group">
+                    <label class="perfil-label" for="imagen">Seleccioná una imagen</label>
+
+                    <input
+                        type="file"
+                        id="imagen"
+                        name="imagen"
+                        class="form-control"
+                        accept=".jpg,.jpeg,.png,.gif"
+                    >
+
+                    <div class="perfil-help-text">JPG, PNG o GIF. Máximo 2 MB.</div>
+                </div>
+
+                <button type="submit" name="guardar_foto" class="btn-cursolandia">
+                    Cambiar foto
+                </button>
+
+            </form>
+
+        </section>    
+
+        <section class="perfil-card">
+
+            <div class="perfil-card-heading">
+                <div>
+                    <span class="section-kicker">INFORMACIÓN PERSONAL</span>
+                    <h2 class="perfil-section-title">Mis datos</h2>
+                </div>
             </div>
 
-            <button type="submit" name="guardar_datos" class="btn btn-primary">Guardar datos</button>
-        </form>
+            <?php if ($errorDatos != "") { ?>
+                <div class="perfil-alert perfil-alert-error">
+                    <?php echo $errorDatos; ?>
+                </div>
+            <?php } ?>
 
-        <h2 class="h4">Mis intereses</h2>
-        <p class="text-muted">Los usamos para recomendarte cursos.</p>
+            <form method="post" action="perfil.php" class="perfil-form">
 
-        <?php if ($errorIntereses != "") { ?>
-            <div class="alert alert-danger"><?php echo $errorIntereses; ?></div>
-        <?php } ?>
+                <div class="perfil-form-group">
+                    <label class="perfil-label">Email</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        value="<?php echo $usuario->email; ?>"
+                        disabled
+                    >
+                    <div class="perfil-help-text">El email no se puede modificar.</div>
+                </div>
 
-        <form method="post" action="perfil.php" class="mb-5">
-            <div class="mb-3">
-                <?php foreach ($todas_las_etiquetas as $etiqueta) { ?>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="intereses[]"
-                               id="interes<?php echo $etiqueta['id']; ?>"
-                               value="<?php echo $etiqueta['id']; ?>"
-                               <?php if (in_array($etiqueta['id'], $intereses_elegidos)) { echo "checked"; } ?>>
-                        <label class="form-check-label" for="interes<?php echo $etiqueta['id']; ?>">
-                            <?php echo $etiqueta['nombre']; ?>
-                        </label>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="perfil-label">Nombre</label>
+                        <input
+                            type="text"
+                            name="nombre"
+                            class="form-control"
+                            value="<?php echo $nombre; ?>"
+                        >
                     </div>
-                <?php } ?>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="perfil-label">Apellido</label>
+                        <input
+                            type="text"
+                            name="apellido"
+                            class="form-control"
+                            value="<?php echo $apellido; ?>"
+                        >
+                    </div>
+                </div>
+
+                <div class="perfil-form-group">
+                    <label class="perfil-label">Antecedentes (opcional)</label>
+                    <textarea
+                        name="antecedentes"
+                        class="form-control"
+                        rows="4"
+                    ><?php echo $antecedentes; ?></textarea>
+                </div>
+
+                <button type="submit" name="guardar_datos" class="btn-cursolandia">
+                    Guardar datos
+                </button>
+
+            </form>
+
+        </section>
+
+        <section class="perfil-card">
+
+            <div class="perfil-card-heading">
+                <div>
+                    <span class="section-kicker">PERSONALIZACIÓN</span>
+                    <h2 class="perfil-section-title">Mis intereses</h2>
+                    <p class="perfil-card-description">
+                        Seleccioná los temas que te interesan para recibir recomendaciones de cursos.
+                    </p>
+                </div>
             </div>
 
-            <button type="submit" name="guardar_intereses" class="btn btn-primary">Guardar intereses</button>
-        </form>
+            <?php if ($errorIntereses != "") { ?>
+                <div class="perfil-alert perfil-alert-error">
+                    <?php echo $errorIntereses; ?>
+                </div>
+            <?php } ?>
 
-        <h2 class="h4">Cambiar contraseña</h2>
+            <form method="post" action="perfil.php" class="perfil-form">
 
-        <?php if ($errorClave != "") { ?>
-            <div class="alert alert-danger"><?php echo $errorClave; ?></div>
-        <?php } ?>
+                <div class="perfil-intereses-list">
+                    <?php foreach ($todas_las_etiquetas as $etiqueta) { ?>
+                        <div class="perfil-interes-item">
 
-        <form method="post" action="perfil.php">
-            <div class="mb-3">
-                <label class="form-label">Contraseña actual</label>
-                <input type="password" name="clave_actual" class="form-control">
+                            <input
+                                type="checkbox"
+                                name="intereses[]"
+                                id="interes<?php echo $etiqueta['id']; ?>"
+                                value="<?php echo $etiqueta['id']; ?>"
+                                <?php if (in_array($etiqueta['id'], $intereses_elegidos)) { echo "checked"; } ?>
+                            >
+
+                            <label for="interes<?php echo $etiqueta['id']; ?>">
+                                <?php echo $etiqueta['nombre']; ?>
+                            </label>
+
+                        </div>
+                    <?php } ?>
+                </div>
+
+                <button type="submit" name="guardar_intereses" class="btn-cursolandia">
+                    Guardar intereses
+                </button>
+
+            </form>
+
+        </section>
+
+        <section class="perfil-card">
+
+            <div class="perfil-card-heading">
+                <div>
+                    <span class="section-kicker">SEGURIDAD</span>
+                    <h2 class="perfil-section-title">Cambiar contraseña</h2>
+                    <p class="perfil-card-description">
+                        Actualizá tu contraseña para mantener segura tu cuenta.
+                    </p>
+                </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Contraseña nueva</label>
-                <input type="password" name="clave_nueva" class="form-control">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Repetir contraseña nueva</label>
-                <input type="password" name="clave_repetida" class="form-control">
-            </div>
 
-            <button type="submit" name="cambiar_clave" class="btn btn-primary">Cambiar contraseña</button>
-        </form>
+            <?php if ($errorClave != "") { ?>
+                <div class="perfil-alert perfil-alert-error">
+                    <?php echo $errorClave; ?>
+                </div>
+            <?php } ?>
+
+            <form method="post" action="perfil.php" class="perfil-form">
+
+                <div class="perfil-form-group">
+                    <label class="perfil-label">Contraseña actual</label>
+                    <input
+                        type="password"
+                        name="clave_actual"
+                        class="form-control"
+                    >
+                </div>
+
+                <div class="perfil-form-group">
+                    <label class="perfil-label">Contraseña nueva</label>
+                    <input
+                        type="password"
+                        name="clave_nueva"
+                        class="form-control"
+                    >
+                </div>
+
+                <div class="perfil-form-group">
+                    <label class="perfil-label">Repetir contraseña nueva</label>
+                    <input
+                        type="password"
+                        name="clave_repetida"
+                        class="form-control"
+                    >
+                </div>
+
+                <button type="submit" name="cambiar_clave" class="btn-cursolandia">
+                    Cambiar contraseña
+                </button>
+
+            </form>
+
+        </section>
 
     <?php } ?>
 </div>
