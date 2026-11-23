@@ -149,39 +149,63 @@ CREATE TABLE pagos_pro (
 INSERT INTO usuarios (nombre, apellido, email, password, rol, vencimiento_pro) VALUES
 ('Admin',   'Cursolandia', 'admin@cursolandia.com',  '81dc9bdb52d04dc20036dbd8313ed055', 'admin',   '2099-12-31'),  -- contaseña 1234
 ('Docente', 'Pro',         'pro@cursolandia.com',    '81dc9bdb52d04dc20036dbd8313ed055', 'usuario', '2099-12-31'),  -- contaseña 1234
-('Usuario', 'Gratis',      'user@cursolandia.com',   '81dc9bdb52d04dc20036dbd8313ed055', 'usuario', NULL);  -- contaseña 1234
+('Usuario', 'Gratis',      'user@cursolandia.com',   '81dc9bdb52d04dc20036dbd8313ed055', 'usuario', NULL), -- contraseña 1234
+('Mariana', 'Gómez', 'docente2@cursolandia.com', '81dc9bdb52d04dc20036dbd8313ed055', 'usuario', '2099-12-31'), -- contraseña 1234
+('Lucas', 'Fernández', 'alumno1@cursolandia.com', '81dc9bdb52d04dc20036dbd8313ed055', 'usuario', NULL), -- contraseña 1234
+('Sofía', 'Rodríguez', 'alumno2@cursolandia.com', '81dc9bdb52d04dc20036dbd8313ed055', 'usuario', NULL); -- contraseña 1234
 
 INSERT INTO etiquetas (nombre) VALUES
-('PHP'), ('Bases de datos'), ('Java'), ('HTML y CSS'), ('JavaScript'), ('Python');
+('PHP'), ('Bases de datos'), ('Java'), ('HTML y CSS'), ('JavaScript'), ('Python'), ('Desarrollo Web'), ('Desarrollo backend');
 
 INSERT INTO usuario_intereses (usuario_id, etiqueta_id) VALUES
-(3, 1), (3, 2);
+(3, 1), (3, 2), (5, 1), (5, 5), (6, 4), (6, 7), (6, 8);
 
 INSERT INTO cursos (creador_id, titulo, descripcion, costo, cupo, fecha_inicio, fecha_fin, tipo_acceso) VALUES
 (2, 'Introducción a PHP',      'Primeros pasos con PHP: sintaxis, formularios y conexión a la base de datos.', 0.00,     30,   '2026-10-01', '2026-12-20', 'publico'),
 (2, 'MariaDB desde cero',      'Modelado relacional, SQL, claves e índices con MariaDB.',                      15000.00, 20,   '2026-10-15', '2026-12-15', 'publico'),
 (2, 'Java: programación POO',  'Clases, herencia y polimorfismo con Java. Curso solo por invitación.',         0.00,     NULL, '2026-09-01', '2026-12-31', 'privado'),
-(2, 'HTML y CSS básico',       'Maquetado web con HTML5 y CSS3. Edición ya finalizada.',                       0.00,     NULL, '2026-03-01', '2026-06-30', 'publico');
+(2, 'HTML y CSS básico',       'Maquetado web con HTML5 y CSS3. Edición ya finalizada.',                       0.00,     NULL, '2026-03-01', '2026-06-30', 'publico'),
+(4, 'JavaScript moderno desde cero',       'Aprendé JavaScript, manipulación del DOM, eventos y programación asíncrona.', 0.00, 25, '2026-11-20', '2027-02-28', 'publico'),
+(4, 'Desarrollo backend con PHP',       'Construcción de aplicaciones web con PHP, programación orientada a objetos y bases de datos.', 18000.00, 15, '2026-12-01', '2027-03-30', 'publico'),
+(2, 'Taller privado de Java',       'Prácticas avanzadas de programación orientada a objetos, colecciones y excepciones.', 0.00, 10, '2026-12-05', '2027-01-31', 'privado');
  
 INSERT INTO curso_etiquetas (curso_id, etiqueta_id) VALUES
-(1, 1), (1, 4),
-(2, 2),
-(3, 3),
-(4, 4);
+(1, 1), (1, 4), (2, 2), (3, 3), (4, 4), (5, 5), (5, 6), (6, 1), (6, 2), (6, 8), (7, 3);
  
 INSERT INTO inscripciones (curso_id, usuario_id, estado) VALUES
 (1, 3, 'confirmada'),
 (2, 3, 'pendiente'),
-(1, 1, 'confirmada');
+(1, 1, 'confirmada'),
+(5, 5, 'confirmada'),
+(5, 6, 'confirmada'),
+(6, 5, 'pendiente'),
+(6, 6, 'pendiente'),
+(1, 5, 'confirmada'),
+(2, 6, 'rechazada'),
+(5, 3, 'confirmada');
  
 INSERT INTO preguntas (curso_id, usuario_id, titulo, contenido, estado, destacada) VALUES
 (1, 3, '¿Cómo conecto PHP con MariaDB?',      'Estoy probando con mysqli pero no me conecta. ¿Qué me recomiendan usar?', 'abierta', 0),
-(1, 3, '¿Qué diferencia hay entre GET y POST?', 'No me queda claro cuándo conviene usar cada uno en un formulario.',      'cerrada', 1);
+(1, 3, '¿Qué diferencia hay entre GET y POST?', 'No me queda claro cuándo conviene usar cada uno en un formulario.',      'cerrada', 1),
+(5, 5, '¿Qué diferencia hay entre let y const?','Estoy comenzando con JavaScript y quiero entender cuándo conviene utilizar cada declaración.','abierta', 0),
+(6, 6, '¿Cómo organizar las clases en PHP?','¿Es recomendable separar cada clase en un archivo diferente y utilizar require_once?','abierta', 1),
+(1, 5, '¿Qué es una consulta preparada?','Leí que las consultas preparadas ayudan a evitar inyecciones SQL. ¿Cómo funcionan?','cerrada', 0),
+(5, 6, '¿Para qué sirve addEventListener?','Quiero detectar cuando un usuario hace clic en un botón. ¿Es la forma recomendada?','abierta', 0);
  
 INSERT INTO respuestas (pregunta_id, usuario_id, contenido, es_aceptada) VALUES
 (1, 2, 'Te recomiendo PDO con consultas preparadas. Revisá host, usuario y nombre de la base en tu config.', 0),
-(2, 2, 'GET manda los datos en la URL y es para consultas; POST los manda en el cuerpo y es para enviar datos.', 1);
+(2, 2, 'GET manda los datos en la URL y es para consultas; POST los manda en el cuerpo y es para enviar datos.', 1),
+(3, 4, 'Usá const cuando no necesites reasignar la variable y let cuando sí necesites cambiar su valor.', 1),
+(4, 2, 'Sí. Separar las clases en archivos facilita la organización y el mantenimiento del proyecto.', 0),
+(4, 1, 'También podés utilizar require_once para evitar incluir varias veces el mismo archivo.', 0),
+(5, 2, 'Las consultas preparadas separan los datos de la instrucción SQL y ayudan a prevenir inyecciones SQL.', 1),
+(6, 4, 'addEventListener permite asociar una función a un evento, por ejemplo click.', 0),
+(3, 2, 'Recordá que const impide reasignar la variable, pero no vuelve inmutable un objeto.', 0);
  
 INSERT INTO notificaciones (usuario_id, tipo, mensaje, curso_id, pregunta_id, leida) VALUES
 (2, 'pregunta_creada',  'Usuario Gratis hizo una pregunta en "Introducción a PHP".',  1, 1, 0),
-(3, 'respuesta_creada', 'Docente Pro respondió tu pregunta "¿Cómo conecto PHP con MariaDB?".', 1, 1, 0);
+(3, 'respuesta_creada', 'Docente Pro respondió tu pregunta "¿Cómo conecto PHP con MariaDB?".', 1, 1, 0),
+(4, 'pregunta_creada', 'Sofía Rodríguez hizo una pregunta en Desarrollo backend con PHP.', 6, 4, 0),
+(5, 'respuesta_creada', 'Mariana Gómez respondió tu pregunta sobre JavaScript.', 5, 3, 0),
+(6, 'respuesta_creada', 'Un docente respondió tu pregunta sobre PHP.', 1, 5, 0),
+(4, 'pregunta_creada', 'Sofía Rodríguez hizo una pregunta en JavaScript moderno desde cero.', 5, 6, 1);
