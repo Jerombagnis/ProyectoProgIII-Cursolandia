@@ -40,29 +40,53 @@ $titulo = "Ingresar - Cursolandia";
 include 'includes/header.php';
 ?>
 
-<div class="row justify-content-center">
-    <div class="col-md-5">
-        <h1 class="mb-4">Ingresar</h1>
+<div class="auth-container">
+    <div class="auth-card">
+
+        <div class="auth-header">
+            <span class="section-kicker">TU ESPACIO DE APRENDIZAJE</span>
+            <h1 class="auth-title">¡Bienvenido de nuevo!</h1>
+            <p class="section-description">
+                Ingresá a tu cuenta y continuá aprendiendo en Cursolandia.
+            </p>
+        </div>
 
         <?php if (isset($_GET['registrado'])) { ?>
-            <div class="alert alert-success">Registro exitoso. Ya podés iniciar sesión.</div>
+            <div class="auth-alert auth-alert-success">
+                Registro exitoso. Ya podés iniciar sesión.
+            </div>
         <?php } ?>
 
         <?php if ($error != "") { ?>
-            <div class="alert alert-danger"><?php echo $error; ?></div>
+            <div class="auth-alert auth-alert-error">
+                <?php echo $error; ?>
+            </div>
         <?php } ?>
 
-        <form action="login.php" method="POST">
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
+        <form action="login.php" method="POST" class="auth-form">
+            <div class="auth-field">
+                <label class="auth-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="ejemplo@correo.com" value="<?php echo $email; ?>">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <input type="password" name="password" class="form-control">
+
+            <div class="auth-field">
+                <label class="auth-label">Contraseña</label>
+                <input type="password" name="password" class="form-control" placeholder="Ingresá tu contraseña">
             </div>
-            <input type="submit" name="enviar" value="Ingresar" class="btn btn-primary">
+
+            <button type="submit" name="enviar" class="btn-cursolandia auth-submit">
+                Ingresar
+            </button>
+
         </form>
+
+        <div class="auth-footer">
+            <p>
+                ¿Todavía no tenés una cuenta?
+                <a href="registro.php">Registrate</a>
+            </p>
+        </div>
+
     </div>
 </div>
 

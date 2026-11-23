@@ -45,38 +45,63 @@ $titulo = "Registrarse - Cursolandia";
 include 'includes/header.php';
 ?>
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h1 class="mb-4">Crear cuenta</h1>
+<div class="auth-container">
+    <div class="auth-card auth-card-registro">
+
+        <div class="auth-header">
+            <span class="section-kicker">EMPEZÁ TU CAMINO</span>
+            <h1 class="auth-title">Creá tu cuenta</h1>
+            <p class="section-description">
+                Unite a Cursolandia y descubrí nuevas oportunidades de aprendizaje.
+            </p>
+        </div>
 
         <!-- muestra de errores -->
         <?php if ($error != "") { ?>
-            <div class="alert alert-danger"><?php echo $error; ?></div>
+            <div class="auth-alert auth-alert-error">
+                <?php echo $error; ?>
+            </div>
         <?php } ?>
 
-        <form action="registro.php" method="POST">
-            <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <input type="text" name="nombre" class="form-control" value="<?php echo $nombre; ?>">
+        <form action="registro.php" method="POST" class="auth-form">
+            <div class="auth-field">
+                <label class="auth-label">Nombre</label>
+                <input type="text" name="nombre" class="form-control" placeholder="Tu nombre" value="<?php echo $nombre; ?>">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Apellido</label>
-                <input type="text" name="apellido" class="form-control" value="<?php echo $apellido; ?>">
+
+            <div class="auth-field">
+                <label class="auth-label">Apellido</label>
+                <input type="text" name="apellido" class="form-control" placeholder="Tu apellido" value="<?php echo $apellido; ?>">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
+
+            <div class="auth-field">
+                <label class="auth-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="ejemplo@correo.com" value="<?php echo $email; ?>">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <input type="password" name="password" class="form-control">
+
+            <div class="auth-field">
+                <label class="auth-label">Contraseña</label>
+                <input type="password" name="password" class="form-control" placeholder="Creá una contraseña">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Repetir contraseña</label>
-                <input type="password" name="password2" class="form-control">
+
+            <div class="auth-field">
+                <label class="auth-label">Repetir contraseña</label>
+                <input type="password" name="password2" class="form-control" placeholder="Volvé a ingresar tu contraseña">
             </div>
-            <input type="submit" name="enviar" value="Registrarme" class="btn btn-primary">
+
+            <button type="submit" name="enviar" class="btn-cursolandia auth-submit">
+                Crear mi cuenta
+            </button>
+
         </form>
+
+        <div class="auth-footer">
+            <p>
+                ¿Ya tenés una cuenta?
+                <a href="login.php">Iniciá sesión</a>
+            </p>
+        </div>
+
     </div>
 </div>
 

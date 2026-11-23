@@ -2903,3 +2903,133 @@ h1, h2, h3, h4, h5 {
     color: #B91C1C;
     font-size: 14px;
 }
+
+.auth-header {
+    margin-bottom: 30px;
+}
+
+.auth-title {
+    font-size: 30px;
+    font-weight: 750;
+    letter-spacing: -1px;
+    color: #172033;
+    margin: 10px 0;
+}
+
+@media (max-width: 576px) {
+    .auth-title {
+        font-size: 26px;
+    }
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 460px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 36px;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+}
+
+@media (max-width: 576px) {
+    .auth-card {
+        padding: 26px 20px;
+    }
+
+    .auth-container {
+        padding: 24px 12px;
+    }
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.auth-label {
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.auth-form .form-control {
+    min-height: 46px;
+    border: 1px solid #CBD5E1;
+    border-radius: 9px;
+    padding: 10px 13px;
+    color: #172033;
+    font-size: 14px;
+}
+
+.auth-form .form-control:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.auth-submit {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+.auth-alert {
+    padding: 13px 16px;
+    margin-bottom: 22px;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.auth-alert-success {
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    color: #15803D;
+}
+
+.auth-alert-error {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: #B91C1C;
+}
+
+.auth-footer {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #E2E8F0;
+    text-align: center;
+}
+
+.auth-footer p {
+    margin: 0;
+    color: #64748B;
+    font-size: 14px;
+}
+
+.auth-footer a {
+    color: #2563EB;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    color: #1D4ED8;
+    text-decoration: underline;
+}
+
+.auth-card-registro {
+    max-width: 520px;
+}
