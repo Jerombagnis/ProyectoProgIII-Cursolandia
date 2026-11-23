@@ -59,5 +59,18 @@ class ManejadorPregunta {
         }
         return $items;
     }
+
+    //metodo para poder destacar una pregunta
+    public function cambiarDestacada($pregunta_id, $destacada) {
+    $sql = "UPDATE preguntas
+            SET destacada = '$destacada'
+            WHERE id = '$pregunta_id'";
+
+    $resultado = mysqli_query($this->conexion, $sql);
+
+    if (!$resultado) {
+        throw new Exception("No se pudo actualizar el destacado de la pregunta.");
+    }
+}
 }
 ?>

@@ -77,5 +77,28 @@ class ControlForo {
         // si pasó todo, se guarda
         return $this->manejadorRespuesta->guardar($respuesta);
     }
+
+        //metodo para destacar una pregunta
+    public function cambiarDestacada($pregunta_id, $usuario_id) {
+        $pregunta = $this->manejadorPregunta->buscarPorId($pregunta_id);
+
+        if ($pregunta == null) {
+            throw new Exception("La pregunta no existe.");
+        }
+
+        $curso = $this->manejadorCurso->buscarPorId($pregunta->curso_id);
+
+        if ($curso == null) {
+            throw new Exception("El curso no existe.");
+        }
+
+        if (!$curso->esCreador($usuario_id)) {
+            throw new Exception("Solo el creador del curso puede destacar preguntas.");
+        }
+
+        $nuevoEstado = $pregunta->esDestacada() ? 0 : 1;
+
+        $this->manejadorPregunta->cambiarDestacada($pregunta_id, $nuevoEstado);
+    }
 }
 ?>

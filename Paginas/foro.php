@@ -89,69 +89,168 @@ include "../Conexiones/cerrar_conexion.php";
         <a href="index.php" class="btn btn-secondary">Volver al inicio</a>
     <?php } else { ?>
 
-        <h1 class="mb-1">Foro</h1>
-        <p class="text-muted"><?php echo $curso->titulo; ?></p>
+        <div class="foro-header">
+
+            <div>
+                <span class="section-kicker">COMUNIDAD DEL CURSO</span>
+
+                <h1 class="foro-title">Foro de consultas</h1>
+
+                <p class="section-description">
+                    <?php echo $curso->titulo; ?>
+                </p>
+            </div>
+
+            <a href="curso.php?id=<?php echo $curso->id; ?>" class="btn-curso-secondary">
+                Volver al curso
+            </a>
+
+        </div>
 
         <?php if ($mensaje != "") { ?>
             <div class="alert alert-success"><?php echo $mensaje; ?></div>
         <?php } ?>
 
-        <h2 class="h4">Hacer una pregunta</h2>
+        <section class="foro-form-card">
 
-        <?php if ($errorPregunta != "") { ?>
-            <div class="alert alert-danger"><?php echo $errorPregunta; ?></div>
-        <?php } ?>
-
-        <form method="post" action="foro.php?id=<?php echo $curso->id; ?>" class="mb-5">
-            <div class="mb-3">
-                <label class="form-label">Título</label>
-                <input type="text" name="titulo" class="form-control" value="<?php echo $titulo; ?>">
+            <div class="foro-section-heading">
+                <div>
+                    <span class="section-kicker">PARTICIPÁ</span>
+                    <h2 class="foro-section-title">Hacer una pregunta</h2>
+                    <p class="foro-description">
+                        Compartí tus dudas con el docente y los demás participantes del curso.
+                    </p>
+                </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Detalle</label>
-                <textarea name="contenido" class="form-control" rows="4"><?php echo $contenido; ?></textarea>
-            </div>
-            <button type="submit" name="preguntar" class="btn btn-primary">Publicar pregunta</button>
-        </form>
 
-        <h2 class="h4">Preguntas</h2>
+            <?php if ($errorPregunta != "") { ?>
+                <div class="foro-alert foro-alert-error">
+                    <?php echo $errorPregunta; ?>
+                </div>
+            <?php } ?>
+
+            <form method="post" action="foro.php?id=<?php echo $curso->id; ?>" class="foro-form">
+
+                <div class="foro-form-group">
+                    <label class="foro-label">Título</label>
+                    <input
+                        type="text"
+                        name="titulo"
+                        class="form-control"
+                        value="<?php echo $titulo; ?>"
+                        placeholder="¿Sobre qué tema tenés una duda?"
+                    >
+                </div>
+
+                <div class="foro-form-group">
+                    <label class="foro-label">Detalle</label>
+                    <textarea
+                        name="contenido"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Desarrollá tu pregunta con el mayor detalle posible..."
+                    ><?php echo $contenido; ?></textarea>
+                </div>
+
+                <button type="submit" name="preguntar" class="btn-cursolandia">
+                    Publicar pregunta
+                </button>
+
+            </form>
+
+        </section>
+
+        <div class="foro-listado-header">
+            <div>
+                <span class="section-kicker">INTERCAMBIO DE CONOCIMIENTOS</span>
+                <h2 class="foro-section-title">Preguntas del curso</h2>
+            </div>
+
+            <span class="foro-total-preguntas">
+                <?php echo count($items); ?>
+                <?php echo count($items) == 1 ? 'pregunta' : 'preguntas'; ?>
+            </span>
+        </div>
 
         <?php if (count($items) == 0) { ?>
-            <p>Todavía no hay preguntas. ¡Hacé la primera!</p>
+
+            <div class="foro-empty-state">
+                <div class="foro-empty-icon">
+                    <i class="bi bi-chat-square-text"></i>
+                </div>
+
+                <h3>Todavía no hay preguntas</h3>
+
+                <p>
+                    Este espacio está esperando su primera consulta.
+                    ¡Animate a participar!
+                </p>
+            </div>
+
         <?php } else { ?>
-            <div class="list-group mb-4">
+
+            <div class="foro-preguntas-lista">
+
                 <?php foreach ($items as $item) { ?>
                     <?php $pregunta = $item['pregunta']; ?>
-                    <a href="pregunta.php?id=<?php echo $pregunta->id; ?>" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h3 class="h6 mb-1">
-                                    <?php if ($pregunta->esDestacada()) { ?>
-                                        <span class="badge bg-warning text-dark">Destacada</span>
-                                    <?php } ?>
-                                    <?php echo $pregunta->titulo; ?>
-                                </h3>
-                                <small class="text-muted">
-                                    <?php echo $item['autor']; ?>
-                                    <?php if ($curso->esCreador($pregunta->usuario_id)) { ?>
-                                        (docente)
-                                    <?php } ?>
-                                    &middot; <?php echo $pregunta->created_at; ?>
-                                </small>
-                            </div>
-                            <div class="text-end">
-                                <?php if ($pregunta->estaCerrada()) { ?>
-                                    <span class="badge bg-secondary">Cerrada</span>
-                                <?php } ?>
-                                <span class="badge text-bg-light border"><?php echo $item['respuestas']; ?> respuesta(s)</span>
-                            </div>
-                        </div>
-                    </a>
-                <?php } ?>
-            </div>
-        <?php } ?>
 
-        <a href="curso.php?id=<?php echo $curso->id; ?>" class="btn btn-secondary">Volver al curso</a>
+                    <a href="pregunta.php?id=<?php echo $pregunta->id; ?>"class="foro-pregunta-card">
+
+                        <div class="foro-pregunta-contenido">
+
+                            <div class="foro-pregunta-etiquetas">
+                                <?php if ($pregunta->esDestacada()) { ?>
+                                    <span class="foro-badge foro-badge-destacada">
+                                        Destacada
+                                    </span>
+                                <?php } ?>
+
+                                <?php if ($pregunta->estaCerrada()) { ?>
+                                    <span class="foro-badge foro-badge-cerrada">
+                                        Cerrada
+                                    </span>
+                                <?php } ?>
+                            </div>
+
+                            <h3 class="foro-pregunta-titulo">
+                                <?php echo $pregunta->titulo; ?>
+                            </h3>
+
+                            <div class="foro-pregunta-meta">
+
+                                <span>
+                                    <?php echo $item['autor']; ?>
+
+                                    <?php if ($curso->esCreador($pregunta->usuario_id)) { ?>
+                                        <span class="foro-autor-docente">Docente</span>
+                                    <?php } ?>
+                                </span>
+
+                                <span class="foro-meta-separador">·</span>
+
+                                <span><?php echo $pregunta->created_at; ?></span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="foro-pregunta-respuestas">
+                            <span class="foro-respuestas-numero">
+                                <?php echo $item['respuestas']; ?>
+                            </span>
+
+                            <span class="foro-respuestas-texto">
+                                <?php echo $item['respuestas'] == 1 ? 'respuesta' : 'respuestas'; ?>
+                            </span>
+                        </div>
+
+                    </a>
+
+                <?php } ?>
+
+            </div>
+
+        <?php } ?>
 
     <?php } ?>
 </div>
