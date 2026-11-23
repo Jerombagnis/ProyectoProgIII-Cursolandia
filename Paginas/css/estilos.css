@@ -2432,3 +2432,306 @@ h1, h2, h3, h4, h5 {
     border-color: #BBF7D0;
 }
 
+/* administracion de solicitudes pro */
+
+.admin-pro-header {
+    margin-bottom: 28px;
+}
+
+.admin-pro-title {
+    font-size: 32px;
+    font-weight: 750;
+    color: #172033;
+    margin: 8px 0;
+}
+
+@media (max-width: 576px) {
+    .admin-pro-title {
+        font-size: 27px;
+    }
+}
+
+/* alertas admin pro */
+
+.admin-pro-alert {
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+}
+
+.admin-pro-alert-error {
+    background: #FEF2F2;
+    color: #991B1B;
+    border-color: #FECACA;
+}
+
+.admin-pro-alert-success {
+    background: #F0FDF4;
+    color: #166534;
+    border-color: #BBF7D0;
+}
+
+.admin-pro-empty {
+    background: #FFFFFF;
+    border: 1px dashed #CBD5E1;
+    border-radius: 14px;
+    padding: 40px 24px;
+    text-align: center;
+}
+
+.admin-pro-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: #DCFCE7;
+    color: #166534;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.admin-pro-empty h2 {
+    color: #172033;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.admin-pro-empty p {
+    color: #64748B;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* TARJETAS DE SOLICITUDES ADMIN PRO */
+
+.admin-pro-solicitudes {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.admin-pro-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.admin-pro-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.admin-pro-card-label {
+    display: block;
+    color: #64748B;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    margin-bottom: 7px;
+}
+
+.admin-pro-fecha {
+    color: #172033;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.admin-pro-pendiente {
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.admin-pro-card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 24px;
+}
+
+.admin-pro-dato h3 {
+    color: #172033;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 5px;
+}
+
+.admin-pro-dato p {
+    color: #64748B;
+    font-size: 14px;
+    margin: 0;
+}
+
+.admin-pro-plan {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.admin-pro-plan-gratuito {
+    background: #F1F5F9;
+    color: #475569;
+}
+
+.admin-pro-plan-activo {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.admin-pro-plan-vencido {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.admin-pro-mensaje {
+    grid-column: 1 / -1;
+    background: #F8FAFC;
+    border-radius: 9px;
+    padding: 14px;
+}
+
+.admin-pro-mensaje p {
+    color: #334155;
+    line-height: 1.5;
+}
+
+.admin-pro-mensaje .admin-pro-sin-mensaje {
+    color: #94A3B8;
+    font-style: italic;
+}
+
+.admin-pro-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 24px;
+    background: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+}
+
+.admin-pro-comprobante {
+    color: #2563EB;
+    font-size: 14px;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.admin-pro-comprobante:hover {
+    color: #1D4ED8;
+    text-decoration: underline;
+}
+
+.admin-pro-acciones {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-pro-form-aprobar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-pro-select {
+    padding: 8px 10px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    background: #FFFFFF;
+    color: #172033;
+    font-size: 13px;
+}
+
+.admin-pro-btn-aprobar,
+.admin-pro-btn-rechazar {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.admin-pro-btn-aprobar {
+    background: #2563EB;
+    color: #FFFFFF;
+    border: 1px solid #2563EB;
+}
+
+.admin-pro-btn-aprobar:hover {
+    background: #1D4ED8;
+    border-color: #1D4ED8;
+}
+
+.admin-pro-btn-rechazar {
+    background: #FFFFFF;
+    color: #DC2626;
+    border: 1px solid #FECACA;
+}
+
+.admin-pro-btn-rechazar:hover {
+    background: #FEF2F2;
+    border-color: #FCA5A5;
+}
+
+@media (max-width: 768px) {
+    .admin-pro-card-body {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .admin-pro-mensaje {
+        grid-column: auto;
+    }
+
+    .admin-pro-card-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-pro-acciones {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-pro-card-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-pro-acciones,
+    .admin-pro-form-aprobar {
+        width: 100%;
+    }
+
+    .admin-pro-select {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .admin-pro-btn-aprobar,
+    .admin-pro-btn-rechazar {
+        flex: 1;
+    }
+}
+
