@@ -85,89 +85,166 @@ include "../Conexiones/cerrar_conexion.php";
 <div class="container my-4">
 
     <?php if ($error != "") { ?>
-        <div class="alert alert-danger"><?php echo $error; ?></div>
+        <div class="pro-alert pro-alert-error"><?php echo $error; ?></div>
     <?php } else { ?>
 
-        <h1 class="mb-3">Plan Pro</h1>
-
-        <?php if ($mensaje != "") { ?>
-            <div class="alert alert-success"><?php echo $mensaje; ?></div>
-        <?php } ?>
-
-        <p>
-            <!-- si es pro se muestra hasta cuando es pro, sino muestra plan gratuito -->
-            <?php if ($usuario->esPro()) { ?>
-                <span class="badge bg-warning text-dark">Plan Pro hasta <?php echo $usuario->vencimientoPro; ?></span>
-            <?php } else { ?>
-                <span class="badge bg-secondary">Plan gratuito</span>
-            <?php } ?>
-        </p>
-
-        <p>
-            Con el plan Pro no tenés límite de cursos ni de inscripciones, ni de archivos por curso.
-            Además, tus cursos aparecen como destacados en la portada.
-        </p>
-
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2 class="h5">Cómo pagar</h2>
-                <ol class="mb-0">
-                    <li>Hacé la transferencia al alias <strong>cursolandia.mp</strong>.</li>
-                    <li>Guardá el comprobante del pago.</li>
-                    <li>Completá este formulario y adjuntalo. El administrador lo revisa y activa tu plan.</li>
-                </ol>
+        <div class="pro-page-header">
+            <div>
+                <span class="section-kicker">MEJORÁ TU EXPERIENCIA</span>
+                <h1 class="pro-page-title">Plan Pro</h1>
+                <p class="section-description">
+                    Desbloqueá todas las posibilidades de Cursolandia y llevá tus cursos al siguiente nivel.
+                </p>
             </div>
         </div>
 
+        <?php if ($mensaje != "") { ?>
+            <div class="pro-alert pro-alert-success"><?php echo $mensaje; ?></div>
+        <?php } ?>
+
+        <div class="pro-estado-card">
+            <?php if ($usuario->esPro()) { ?>
+                <span class="pro-estado-badge pro-estado-activo">Plan Pro activo</span>
+                <p>Tu plan está vigente hasta el <?php echo $usuario->vencimientoPro; ?>.</p>
+            <?php } else { ?>
+                <span class="pro-estado-badge pro-estado-gratuito">Plan gratuito</span>
+                <p>Actualmente estás utilizando el plan gratuito de Cursolandia.</p>
+            <?php } ?>
+        </div>
+
+        <div class="pro-beneficios">
+            <div class="pro-beneficio">
+                <span class="pro-beneficio-icono">∞</span>
+                <div>
+                    <h3>Cursos ilimitados</h3>
+                    <p>Creá todos los cursos que quieras, sin restricciones.</p>
+                </div>
+            </div>
+
+            <div class="pro-beneficio">
+                <span class="pro-beneficio-icono">✓</span>
+                <div>
+                    <h3>Inscripciones ilimitadas</h3>
+                    <p>Recibí todas las solicitudes de inscripción que necesites.</p>
+                </div>
+            </div>
+
+            <div class="pro-beneficio">
+                <span class="pro-beneficio-icono">↗</span>
+                <div>
+                    <h3>Más archivos por curso</h3>
+                    <p>Compartí más material y recursos con tus estudiantes.</p>
+                </div>
+            </div>
+
+            <div class="pro-beneficio">
+                <span class="pro-beneficio-icono">★</span>
+                <div>
+                    <h3>Cursos destacados</h3>
+                    <p>Tus cursos tendrán mayor visibilidad en la portada.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="pro-pago-card">
+            <div class="pro-pago-header">
+                <span class="section-kicker">ACTIVACIÓN DEL PLAN</span>
+                <h2>Cómo pagar</h2>
+                <p>Seguí estos tres pasos para solicitar tu suscripción Pro.</p>
+            </div>
+
+            <ol class="pro-pasos-pago">
+                <li>
+                    <span class="pro-paso-numero">1</span>
+                    <div>
+                        <h3>Realizá la transferencia</h3>
+                        <p>Transferí el importe correspondiente al alias:</p>
+                        <strong class="pro-alias">cursolandia.mp</strong>
+                    </div>
+                </li>
+                <li>
+                    <span class="pro-paso-numero">2</span>
+                    <div>
+                        <h3>Guardá el comprobante</h3>
+                        <p>Conservá el comprobante de la operación para adjuntarlo en el formulario.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="pro-paso-numero">3</span>
+                    <div>
+                        <h3>Enviá tu solicitud</h3>
+                        <p>Adjuntá el comprobante. El administrador revisará el pago y activará tu plan.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
         <?php if ($errorSolicitud != "") { ?>
-            <div class="alert alert-danger"><?php echo $errorSolicitud; ?></div>
+            <div class="pro-alert pro-alert-error"><?php echo $errorSolicitud; ?></div>
         <?php } ?>
 
-        <form method="post" action="solicitar_pro.php" enctype="multipart/form-data" class="mb-5">
-            <div class="mb-3">
-                <label class="form-label">Mensaje (opcional)</label>
-                <textarea name="mensaje" class="form-control" rows="3"><?php echo $mensaje_usuario; ?></textarea>
+        <div class="pro-form-card">
+            <div class="pro-form-header">
+                <span class="section-kicker">FORMULARIO</span>
+                <h2>Solicitar Plan Pro</h2>
+                <p>Adjuntá tu comprobante para que podamos verificar el pago.</p>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Comprobante de pago</label>
-                <input type="file" name="comprobante" class="form-control" accept=".jpg,.jpeg,.png,.pdf">
-                <div class="form-text">JPG, PNG o PDF. Máximo 5 MB.</div>
+            <form method="post" action="solicitar_pro.php" enctype="multipart/form-data" class="pro-form">
+                <div class="pro-form-group">
+                    <label class="pro-form-label">Mensaje <span>(opcional)</span></label>
+                    <textarea name="mensaje" class="form-control" rows="3"><?php echo $mensaje_usuario; ?></textarea>
+                </div>
+
+                <div class="pro-form-group">
+                    <label class="pro-form-label">Comprobante de pago</label>
+                    <input type="file" name="comprobante" class="form-control" accept=".jpg,.jpeg,.png,.pdf">
+                    <p class="pro-form-help">Formatos permitidos: JPG, PNG o PDF. Tamaño máximo: 5 MB.</p>
+                </div>
+
+                <button type="submit" name="solicitar" class="btn-cursolandia">Enviar solicitud</button>
+            </form>
+        </div>
+
+        <div class="pro-solicitudes-section">
+            <div class="pro-solicitudes-header">
+                <div>
+                    <span class="section-kicker">HISTORIAL</span>
+                    <h2>Mis solicitudes</h2>
+                    <p>Consultá el estado de tus solicitudes de Plan Pro.</p>
+                </div>
+                <span class="pro-solicitudes-count"><?php echo count($pagos); ?></span>
             </div>
 
-            <button type="submit" name="solicitar" class="btn btn-primary">Enviar solicitud</button>
-        </form>
-
-        <h2 class="h4">Mis solicitudes</h2>
-
-        <?php if (count($pagos) == 0) { ?>
-            <p>Todavía no enviaste ninguna solicitud.</p>
-        <?php } else { ?>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <?php if (count($pagos) == 0) { ?>
+                <div class="pro-solicitudes-vacio">
+                    <h3>Todavía no enviaste ninguna solicitud</h3>
+                    <p>Cuando envíes una solicitud de Plan Pro, vas a poder consultar su estado desde acá.</p>
+                </div>
+            <?php } else { ?>
+                <div class="pro-solicitudes-lista">
                     <?php foreach ($pagos as $pago) { ?>
-                        <tr>
-                            <td><?php echo $pago->created_at; ?></td>
-                            <td>
+                        <div class="pro-solicitud-item">
+                            <div>
+                                <span class="pro-solicitud-label">Fecha de solicitud</span>
+                                <p><?php echo $pago->created_at; ?></p>
+                            </div>
+
+                            <div>
+                                <span class="pro-solicitud-label">Estado</span>
                                 <?php if ($pago->estaPendiente()) { ?>
-                                    <span class="badge bg-warning text-dark">Pendiente</span>
+                                    <span class="pro-solicitud-estado pro-solicitud-pendiente">Pendiente</span>
                                 <?php } elseif ($pago->estaAprobado()) { ?>
-                                    <span class="badge bg-success">Aprobada</span>
+                                    <span class="pro-solicitud-estado pro-solicitud-aprobada">Aprobada</span>
                                 <?php } else { ?>
-                                    <span class="badge bg-danger">Rechazada</span>
+                                    <span class="pro-solicitud-estado pro-solicitud-rechazada">Rechazada</span>
                                 <?php } ?>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     <?php } ?>
-                </tbody>
-            </table>
-        <?php } ?>
+                </div>
+            <?php } ?>
+        </div>
 
     <?php } ?>
 </div>
