@@ -62,70 +62,121 @@ include "../Conexiones/cerrar_conexion.php";
 <?php include "includes/header.php"; ?>
 
 <div class="container my-4">
-    <h1 class="mb-4">Crear curso</h1>
+
+    <div class="crear-curso-header">
+        <div>
+            <span class="section-kicker">ENSEÑANZA Y APRENDIZAJE</span>
+            <h1 class="crear-curso-title">Crear un curso</h1>
+            <p class="section-description">
+                Compartí tus conocimientos y creá una nueva experiencia de aprendizaje en Cursolandia.
+            </p>
+        </div>
+    </div>
 
     <?php if ($error != "") { ?>
-        <div class="alert alert-danger"><?php echo $error; ?></div>
+        <div class="crear-curso-alert">
+            <?php echo $error; ?>
+        </div>
     <?php } ?>
 
-    <form method="POST" action="crear_curso.php">
-        <div class="mb-3">
-            <label class="form-label">Título</label>
-            <input type="text" name="titulo" class="form-control" value="<?php echo $titulo; ?>">
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <textarea name="descripcion" class="form-control" rows="4"><?php echo $descripcion; ?></textarea>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Costo (Opcional)</label>
-                <input type="number" name="costo" class="form-control" min="0" step="0.01" value="<?php echo $costo; ?>">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Cupo (Opcional)</label>
-                <input type="number" name="cupo" class="form-control" min="1" value="<?php echo $cupo; ?>">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Fecha de inicio</label>
-                <input type="date" name="fecha_inicio" class="form-control" value="<?php echo $fecha_inicio; ?>">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Fecha de fin</label>
-                <input type="date" name="fecha_fin" class="form-control" value="<?php echo $fecha_fin; ?>">
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Tipo de acceso</label>
-            <select name="tipo_acceso" class="form-select">
-                <option value="publico" <?php if ($tipo_acceso == "publico") { echo "selected"; } ?>>Público</option>
-                <option value="privado" <?php if ($tipo_acceso == "privado") { echo "selected"; } ?>>Privado (solo con link de acceso)</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Etiquetas</label><br>
-            <?php foreach ($todas_las_etiquetas as $etiqueta) { ?>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="etiquetas[]"
-                           id="etiqueta<?php echo $etiqueta['id']; ?>"
-                           value="<?php echo $etiqueta['id']; ?>"
-                           <?php if (in_array($etiqueta['id'], $etiquetas_elegidas)) { echo "checked"; } ?>>
-                    <label class="form-check-label" for="etiqueta<?php echo $etiqueta['id']; ?>">
-                        <?php echo $etiqueta['nombre']; ?>
-                    </label>
+    <div class="crear-curso-card">
+        <form method="POST" action="crear_curso.php" class="crear-curso-form">
+            <div class="crear-curso-seccion">
+                <div class="crear-curso-seccion-header">
+                    <span class="section-kicker">01 · INFORMACIÓN GENERAL</span>
+                    <h2>Presentá tu curso</h2>
+                    <p>Contales a los estudiantes qué van a aprender.</p>
                 </div>
-            <?php } ?>
-        </div>
 
-        <button type="submit" name="enviar" class="btn btn-primary">Crear curso</button>
-    </form>
+                <div class="crear-curso-campo">
+                    <label class="crear-curso-label">Título del curso</label>
+                    <input type="text" name="titulo" class="form-control" value="<?php echo $titulo; ?>">
+                </div>
+
+                <div class="crear-curso-campo">
+                    <label class="crear-curso-label">Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="4"><?php echo $descripcion; ?></textarea>
+                </div>
+            </div>
+
+            <div class="crear-curso-seccion">
+                <div class="crear-curso-seccion-header">
+                    <span class="section-kicker">02 · CONFIGURACIÓN</span>
+                    <h2>Detalles del curso</h2>
+                    <p>Definí las condiciones de inscripción y duración.</p>
+                </div>
+
+                <div class="crear-curso-campos-grid">
+                    <div class="crear-curso-campo">
+                        <label class="crear-curso-label">Costo <span>(opcional)</span></label>
+                        <input type="number" name="costo" class="form-control" min="0" step="0.01" value="<?php echo $costo; ?>">
+                    </div>
+
+                    <div class="crear-curso-campo">
+                        <label class="crear-curso-label">Cupo <span>(opcional)</span></label>
+                        <input type="number" name="cupo" class="form-control" min="1" value="<?php echo $cupo; ?>">
+                    </div>
+
+                    <div class="crear-curso-campo">
+                        <label class="crear-curso-label">Fecha de inicio</label>
+                        <input type="date" name="fecha_inicio" class="form-control" value="<?php echo $fecha_inicio; ?>">
+                    </div>
+
+                    <div class="crear-curso-campo">
+                        <label class="crear-curso-label">Fecha de fin</label>
+                        <input type="date" name="fecha_fin" class="form-control" value="<?php echo $fecha_fin; ?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="crear-curso-seccion">
+                <div class="crear-curso-seccion-header">
+                    <span class="section-kicker">03 · ACCESO</span>
+                    <h2>Definí cómo accederán los estudiantes</h2>
+                    <p>Elegí si el curso estará disponible públicamente o mediante un enlace privado.</p>
+                </div>
+
+                <div class="crear-curso-campo">
+                    <label class="crear-curso-label">Tipo de acceso</label>
+                    <select name="tipo_acceso" class="form-select">
+                        <option value="publico" <?php if ($tipo_acceso == "publico") { echo "selected"; } ?>>Público</option>
+                        <option value="privado" <?php if ($tipo_acceso == "privado") { echo "selected"; } ?>>Privado (solo con link de acceso)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="crear-curso-seccion">
+                <div class="crear-curso-seccion-header">
+                    <span class="section-kicker">04 · CATEGORIZACIÓN</span>
+                    <h2>Etiquetas del curso</h2>
+                    <p>Seleccioná las categorías que mejor describan el contenido de tu curso.</p>
+                </div>
+
+                <div class="crear-curso-etiquetas">
+                    <?php foreach ($todas_las_etiquetas as $etiqueta) { ?>
+                        <div class="crear-curso-etiqueta">
+                            <input
+                                type="checkbox"
+                                name="etiquetas[]"
+                                id="etiqueta<?php echo $etiqueta['id']; ?>"
+                                value="<?php echo $etiqueta['id']; ?>"
+                                <?php if (in_array($etiqueta['id'], $etiquetas_elegidas)) { echo "checked"; } ?>
+                            >
+                            <label for="etiqueta<?php echo $etiqueta['id']; ?>">
+                                <?php echo $etiqueta['nombre']; ?>
+                            </label>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <div class="crear-curso-acciones">
+                <button type="submit" name="enviar" class="btn-cursolandia">
+                    Crear curso
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <?php include "includes/footer.php"; ?>

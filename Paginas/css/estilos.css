@@ -2735,3 +2735,171 @@ h1, h2, h3, h4, h5 {
     }
 }
 
+/* creación de cursos */
+
+.crear-curso-header {
+    margin-bottom: 28px;
+}
+
+.crear-curso-title {
+    font-size: 32px;
+    font-weight: 750;
+    color: #172033;
+    margin: 8px 0;
+}
+
+@media (max-width: 576px) {
+    .crear-curso-title {
+        font-size: 27px;
+    }
+}
+
+.crear-curso-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 40px;
+}
+
+.crear-curso-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+@media (max-width: 576px) {
+    .crear-curso-card {
+        padding: 20px;
+    }
+}
+
+.crear-curso-seccion {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.crear-curso-seccion-header {
+    margin-bottom: 4px;
+}
+
+.crear-curso-seccion-header h2 {
+    color: #172033;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 7px 0;
+}
+
+.crear-curso-seccion-header p {
+    color: #64748B;
+    font-size: 14px;
+    margin: 0;
+}
+
+.crear-curso-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.crear-curso-label {
+    color: #172033;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.crear-curso-form .form-control,
+.crear-curso-form .form-select {
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #172033;
+}
+
+.crear-curso-form .form-control:focus,
+.crear-curso-form .form-select:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.crear-curso-campos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.crear-curso-label span {
+    color: #64748B;
+    font-weight: 400;
+}
+
+@media (max-width: 576px) {
+    .crear-curso-campos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.crear-curso-etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.crear-curso-etiqueta input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.crear-curso-etiqueta label {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 16px;
+    border: 1px solid #E2E8F0;
+    border-radius: 999px;
+    background: #FFFFFF;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.crear-curso-etiqueta label:hover {
+    border-color: #2563EB;
+    color: #2563EB;
+}
+
+.crear-curso-etiqueta input:checked + label {
+    background: #EFF6FF;
+    border-color: #2563EB;
+    color: #2563EB;
+}
+
+.crear-curso-etiqueta input:focus-visible + label {
+    outline: 2px solid #2563EB;
+    outline-offset: 3px;
+}
+
+.crear-curso-acciones {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 24px;
+    border-top: 1px solid #E2E8F0;
+    margin-top: 28px;
+}
+
+.crear-curso-acciones .btn-cursolandia {
+    min-width: 160px;
+}
+
+.crear-curso-alert {
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    border: 1px solid #FECACA;
+    border-radius: 10px;
+    background: #FEF2F2;
+    color: #B91C1C;
+    font-size: 14px;
+}
