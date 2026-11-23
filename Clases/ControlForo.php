@@ -78,7 +78,7 @@ class ControlForo {
         return $this->manejadorRespuesta->guardar($respuesta);
     }
 
-        //metodo para destacar una pregunta
+    //metodo para destacar una pregunta
     public function cambiarDestacada($pregunta_id, $usuario_id) {
         $pregunta = $this->manejadorPregunta->buscarPorId($pregunta_id);
 
@@ -100,5 +100,28 @@ class ControlForo {
 
         $this->manejadorPregunta->cambiarDestacada($pregunta_id, $nuevoEstado);
     }
+
+    //metodo para cambiar el estado de una pregunta (abierta o cerrada)
+    public function cambiarEstado($pregunta_id, $usuario_id) {
+    $pregunta = $this->manejadorPregunta->buscarPorId($pregunta_id);
+
+    if ($pregunta == null) {
+        throw new Exception("La pregunta no existe.");
+    }
+
+    $curso = $this->manejadorCurso->buscarPorId($pregunta->curso_id);
+
+    if ($curso == null) {
+        throw new Exception("El curso no existe.");
+    }
+
+    if (!$curso->esCreador($usuario_id)) {
+        throw new Exception("Solo el creador del curso puede cerrar o reabrir preguntas.");
+    }
+
+    $nuevoEstado = $pregunta->estaAbierta() ? "cerrada" : "abierta";
+
+    $this->manejadorPregunta->cambiarEstado($pregunta_id, $nuevoEstado);
+}
 }
 ?>

@@ -62,14 +62,27 @@ class ManejadorPregunta {
 
     //metodo para poder destacar una pregunta
     public function cambiarDestacada($pregunta_id, $destacada) {
+        $sql = "UPDATE preguntas
+                SET destacada = '$destacada'
+                WHERE id = '$pregunta_id'";
+
+        $resultado = mysqli_query($this->conexion, $sql);
+
+        if (!$resultado) {
+            throw new Exception("No se pudo actualizar el destacado de la pregunta.");
+        }
+    }
+
+    //metodo para cambiar el estado de una pregunta (abierta/cerrada)
+    public function cambiarEstado($pregunta_id, $estado) {
     $sql = "UPDATE preguntas
-            SET destacada = '$destacada'
+            SET estado = '$estado'
             WHERE id = '$pregunta_id'";
 
     $resultado = mysqli_query($this->conexion, $sql);
 
     if (!$resultado) {
-        throw new Exception("No se pudo actualizar el destacado de la pregunta.");
+        throw new Exception("No se pudo actualizar el estado de la pregunta.");
     }
 }
 }

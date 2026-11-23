@@ -71,15 +71,27 @@ try {
 
 
     if (isset($_POST['cambiar_destacada'])) {
-    try {
-        $control->cambiarDestacada($pregunta->id, $_SESSION['usuario_id']);
-        $_SESSION['mensaje'] = "Se actualizó el destacado de la pregunta.";
-    } catch (Exception $e) {
-        $_SESSION['mensaje'] = $e->getMessage();
+        try {
+            $control->cambiarDestacada($pregunta->id, $_SESSION['usuario_id']);
+            $_SESSION['mensaje'] = "Se actualizó el destacado de la pregunta.";
+        } catch (Exception $e) {
+            $_SESSION['mensaje'] = $e->getMessage();
+        }
+
+        header("Location: pregunta.php?id=" . $pregunta->id);
+        exit;
     }
 
-    header("Location: pregunta.php?id=" . $pregunta->id);
-    exit;
+    if (isset($_POST['cambiar_estado'])) {
+        try {
+            $control->cambiarEstado($pregunta->id, $_SESSION['usuario_id']);
+            $_SESSION['mensaje'] = "Se actualizó el estado de la pregunta.";
+        } catch (Exception $e) {
+            $_SESSION['mensaje'] = $e->getMessage();
+        }
+
+        header("Location: pregunta.php?id=" . $pregunta->id);
+        exit;
     }
 
     // Si apretó el botón de responder (el autor sale de la sesión)
@@ -159,11 +171,19 @@ include "../Conexiones/cerrar_conexion.php";
         </div>
 
         <?php if ($curso->esCreador($_SESSION['usuario_id'])) { ?>
-            <form method="POST" class="mt-3">
-                <button type="submit" name="cambiar_destacada" class="btn btn-outline-primary">
-                    <?php echo $pregunta->esDestacada() ? "Quitar destacado" : "Destacar pregunta"; ?>
-                </button>
-            </form>
+            <div class="pregunta-acciones">
+                <form method="POST">
+                    <button type="submit" name="cambiar_destacada" class="btn btn-outline-primary">
+                        <?php echo $pregunta->esDestacada() ? "Quitar destacado" : "Destacar pregunta"; ?>
+                    </button>
+                </form>
+
+                <form method="POST">
+                    <button type="submit" name="cambiar_estado" class="btn <?php echo $pregunta->estaAbierta() ? 'btn-outline-danger' : 'btn-outline-success'; ?>">
+                        <?php echo $pregunta->estaAbierta() ? "Cerrar pregunta" : "Reabrir pregunta"; ?>
+                    </button>
+                </form>
+            </div>
         <?php } ?>
 
         <p class="text-muted pregunta-autor-info">
